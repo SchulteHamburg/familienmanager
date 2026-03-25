@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Familien-Management-App</title>
+    <meta name="theme-color" content="#2196F3">
+    <meta name="description" content="Verwalte Einkaufslisten, Morgen- und Abendroutinen der ganzen Familie!">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%232196F3' width='192' height='192'/><text x='96' y='120' font-size='100' font-weight='bold' fill='white' text-anchor='middle'>👨‍👩‍👧‍👦</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%232196F3' width='192' height='192'/><text x='96' y='120' font-size='100' font-weight='bold' fill='white' text-anchor='middle'>👨‍👩‍👧‍👦</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2196F3;
+            --primary-dark: #1a237e;
+            --accent: #FF9800;
+            --bg-light: #ffffff;
+            --bg-dark: #121212;
+            --text-light: #000000;
+            --text-dark: #ffffff;
+            --border-light: #e0e0e0;
+            --border-dark: #333333;
+        }
+
+        body.dark-mode {
+            --bg: var(--bg-dark);
+            --text: var(--text-dark);
+            --border: var(--border-dark);
+        }
+
+        body.light-mode {
+            --bg: var(--bg-light);
+            --text: var(--text-light);
+            --border: var(--border-light);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .back-btn.show {
+            display: flex;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* MAIN CONTAINER */
+        main {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* HOME GRID */
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        body.dark-mode .card {
+            background: #1e1e1e;
+            border-color: #333;
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* CARD COLORS */
+        .card-shopping {
+            border-left: 4px solid #FF9800;
+        }
+
+        .card-morning {
+            border-left: 4px solid #FFC107;
+        }
+
+        .card-evening {
+            border-left: 4px solid #2196F3;
+        }
+
+        .card-parent {
+            border-left: 4px solid #4CAF50;
+        }
+
+        /* PAGE CONTENT (Hidden by default) */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* FORM STYLES */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1976D2;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #F57C00;
+        }
+
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem;
+            }
+
+            .home-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+                min-height: 150px;
+            }
+
+            .card-icon {
+                font-size: 2.5rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .card-description {
+                font-size: 0.75rem;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            .header-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* SHOPPING PAGE STYLES */
+        .shopping-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group input {
+            flex: 1;
+        }
+
+        .shopping-list {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            gap: 1rem;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .list-item.checked {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .list-item-info {
+            flex: 1;
+        }
+
+        .list-item-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .list-item-category {
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        .list-item-quantity {
+            font-size: 0.9rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .favorites-section {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .favorite-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .favorite-btn:hover {
+            background: #1976D2;
+            transform: scale(1.05);
+        }
+
+        .suggestions-section {
+            background: var(--accent);
+            color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .suggestions-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .suggestion-item {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ROUTINE STYLES */
+        .children-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .child-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 2rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .child-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .checklist {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            gap: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .checklist-item:hover {
+            background: var(--border);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .checklist-item-label {
+            flex: 1;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .special-tasks {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .special-tasks h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .special-task-item {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .special-task-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .child-switcher {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .child-switcher-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .child-switcher-btn.active {
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+        }
+
+        .child-switcher-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* PARENT DASHBOARD STYLES */
+        .task-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .task-card {
+            background: var(--bg);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .task-card.special {
+            border-left-color: var(--accent);
+        }
+
+        .task-card-info h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .task-card-meta {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-card-children {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .task-card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .task-card-actions button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        /* MODAL FORM STYLES */
+        .form-section {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-section-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .radio-item, .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .radio-item input[type="radio"],
+        .checkbox-item input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .weekday-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .weekday-btn {
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .weekday-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .children-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .children-selector-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .children-selector-option input[type="radio"] {
+            cursor: pointer;
+        }
+
+        .children-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .children-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .children-checkbox input[type="checkbox"] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <!-- HEADER -->
+    <header>
+        <button class="back-btn" id="backBtn" aria-label="Zurück">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="header-title" id="headerTitle">Familien-Manager</h1>
+        <button class="theme-toggle" id="themeToggle" aria-label="Dunkelmodus umschalten">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- HOME PAGE -->
+        <div id="homePage" class="page-content active">
+            <div class="home-grid">
+                <button class="card card-shopping" onclick="navigate('shopping')">
+                    <div class="card-icon">🛒</div>
+                    <div class="card-title">Einkaufen</div>
+                    <div class="card-description">Listen & Belege</div>
+                </button>
+
+                <button class="card card-morning" onclick="navigate('morning')">
+                    <div class="card-icon">🌅</div>
+                    <div class="card-title">Morgenroutine</div>
+                    <div class="card-description">Tägliche Aufgaben</div>
+                </button>
+
+                <button class="card card-evening" onclick="navigate('evening')">
+                    <div class="card-icon">🌙</div>
+                    <div class="card-title">Abendroutine</div>
+                    <div class="card-description">Abendrituale</div>
+                </button>
+
+                <button class="card card-parent" onclick="navigate('parent')">
+                    <div class="card-icon">👨‍👩‍👧‍👦</div>
+                    <div class="card-title">Elterndashboard</div>
+                    <div class="card-description">Verwaltung & Planung</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- SHOPPING PAGE -->
+        <div id="shoppingPage" class="page-content">
+            <div class="shopping-tabs">
+                <button class="tab-btn active" onclick="switchShoppingTab('list')">📋 Aktive Liste</button>
+                <button class="tab-btn" onclick="switchShoppingTab('history')">📊 Auswertung</button>
+                <button class="tab-btn" onclick="switchShoppingTab('other')">🏪 Sonstige</button>
+            </div>
+
+            <!-- AKTIVE LISTE TAB -->
+            <div id="listTab" class="tab-content active">
+                <div class="form-group">
+                    <label>📅 Liste vom: <span id="currentListDate"></span></label>
+                    <button class="btn btn-secondary" onclick="openNewListModal()">+ Neue Liste</button>
+                </div>
+
+                <div class="favorites-section">
+                    <h3>⭐ Favoriten (Schnelleintrag)</h3>
+                    <div class="favorites-grid" id="favoritesList"></div>
+                </div>
+
+                <div class="suggestions-section" id="suggestionsSection" style="display: none;">
+                    <h3>💡 Intelligente Vorschläge</h3>
+                    <div id="suggestionsList"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Produkt hinzufügen:</label>
+                    <div class="input-group">
+                        <input type="text" id="productInput" placeholder="Produkt eingeben..." />
+                        <button class="btn btn-primary" onclick="addProductToList()">↵ Hinzufügen</button>
+                    </div>
+                </div>
+
+                <h3>Einkaufsliste nach Kategorien</h3>
+                <div id="categorizedList" class="shopping-list"></div>
+
+                <div style="margin-top: 2rem;">
+                    <button class="btn btn-primary btn-block" onclick="enterShoppingMode()">🛒 Einkaufsmodus starten</button>
+                </div>
+            </div>
+
+            <!-- AUSWERTUNG TAB -->
+            <div id="historyTab" class="tab-content">
+                <div class="form-group">
+                    <label>Monat wählen:</label>
+                    <input type="month" id="statisticMonth" onchange="loadStatistics()" value="" />
+                </div>
+
+                <div id="statisticsContainer">
+                    <p>Wähle einen Monat, um die Ausgaben zu sehen.</p>
+                </div>
+            </div>
+
+            <!-- SONSTIGE EINKÄUFE TAB -->
+            <div id="otherTab" class="tab-content">
+                <div class="form-group">
+                    <label>Geschäftskategorie:</label>
+                    <select id="storecategory" onchange="selectStoreCategory()">
+                        <option value="">-- Wähle Kategorie --</option>
+                        <option value="Baumarkt">🔨 Baumarkt</option>
+                        <option value="Drogerie">💊 Drogerie</option>
+                        <option value="Kleidung">👕 Kleidung</option>
+                        <option value="Restaurant">🍽️ Restaurant</option>
+                        <option value="Tanken">⛽ Tanken</option>
+                        <option value="Sonstiges">📦 Sonstiges</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Geschäftname:</label>
+                    <input type="text" id="storeName" placeholder="z.B. Bauhaus, Obi, Bäcker" />
+                </div>
+
+                <div class="form-group">
+                    <label>Betrag (€):</label>
+                    <input type="number" id="storeAmount" step="0.01" placeholder="0.00" />
+                </div>
+
+                <div class="form-group">
+                    <label>Beleg-Foto:</label>
+                    <input type="file" id="receiptPhoto" accept="image/*" />
+                </div>
+
+                <button class="btn btn-primary btn-block" onclick="uploadOtherReceipt()">📸 Beleg hochladen & speichern</button>
+            </div>
+        </div>
+
+        <!-- MORNING ROUTINE PAGE -->
+        <div id="morningPage" class="page-content">
+            <div id="childSelectionMorning" style="display: none;">
+                <h2>🌅 Wer bist du?</h2>
+                <div class="children-grid" id="morningChildrenGrid"></div>
+            </div>
+
+            <div id="morningRoutineDetail" style="display: none;">
+                <div style="margin-bottom: 1.5rem;">
+                    <p style="font-size: 1.1rem; margin-bottom: 1rem;"><strong id="morningChildName"></strong>'s Morgenroutine</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="morningProgress" style="width: 0%;">0%</div>
+                    </div>
+                </div>
+
+                <div class="checklist" id="morningCheckList"></div>
+
+                <div id="morningSpecialTasks" class="special-tasks" style="display: none; margin-top: 2rem;">
+                    <h3>⚠️ Wichtige Aufgaben für heute</h3>
+                    <div id="morningSpecialTasksList"></div>
+                </div>
+
+                <div class="child-switcher" id="morningChildSwitcher"></div>
+            </div>
+        </div>
+
+        <!-- EVENING ROUTINE PAGE -->
+        <div id="eveningPage" class="page-content">
+            <div id="childSelectionEvening" style="display: none;">
+                <h2>🌙 Wer bist du?</h2>
+                <div class="children-grid" id="eveningChildrenGrid"></div>
+            </div>
+
+            <div id="eveningRoutineDetail" style="display: none;">
+                <div style="margin-bottom: 1.5rem;">
+                    <p style="font-size: 1.1rem; margin-bottom: 1rem;"><strong id="eveningChildName"></strong>'s Abendroutine</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="eveningProgress" style="width: 0%;">0%</div>
+                    </div>
+                </div>
+
+                <div class="checklist" id="eveningCheckList"></div>
+
+                <div id="eveningSpecialTasks" class="special-tasks" style="display: none; margin-top: 2rem;">
+                    <h3>⚠️ Wichtige Aufgaben für heute</h3>
+                    <div id="eveningSpecialTasksList"></div>
+                </div>
+
+                <div class="child-switcher" id="eveningChildSwitcher"></div>
+            </div>
+        </div>
+
+        <!-- PARENT DASHBOARD PAGE -->
+        <div id="parentPage" class="page-content">
+            <button class="btn btn-primary" onclick="openTaskModal()">+ Neue Aufgabe/Ereignis</button>
+
+            <div style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;">📋 Regelmäßige Aufgaben</h3>
+                <div class="task-list" id="regularTasksList">
+                    <p style="opacity: 0.6;">Keine regelmäßigen Aufgaben vorhanden. Klicke oben auf "+ Neue Aufgabe", um eine zu erstellen.</p>
+                </div>
+
+                <h3 style="margin: 2rem 0 1.5rem;">📅 Einmalige Ereignisse</h3>
+                <div class="task-list" id="specialTasksList">
+                    <p style="opacity: 0.6;">Keine einmaligen Ereignisse vorhanden. Klicke oben auf "+ Neue Aufgabe", um eines zu erstellen.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ========================================
+        // SERVICE WORKER REGISTRIEREN
+        // ========================================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('✓ Service Worker registriert:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Service Worker Registrierung fehlgeschlagen:', error);
+                    });
+            });
+        }
+
+        // ========================================
+        // APP STATE & INITIALIZATION
+        // ========================================
+        const CHILDREN = ['Mathilda', 'Charlotte', 'Romy', 'Bo'];
+        const MORNING_TASKS = ['Pipi machen', 'Hände waschen', 'Zähne putzen', 'Anziehen', 'Haare bürsten'];
+        const EVENING_TASKS = ['Pipi machen', 'Hände waschen', 'Haare bürsten', 'Schlafanzug anziehen', 'Zähne putzen'];
+        const TEETH_SUBTASKS = ['Normale Zahnbürste', 'Solobürste', 'Zahnseide', 'Elli'];
+
+        let currentPage = 'home';
+        let currentChild = CHILDREN[0];
+
+        // Initialize
+        function initApp() {
+            loadAllData();
+            setupMorningRoutine();
+            setupEveningRoutine();
+            setupShoppingPage();
+            setupParentDashboard();
+            document.getElementById('statisticMonth').valueAsDate = new Date();
+        }
+
+        // ========================================
+        // DARK MODE TOGGLE
+        // ========================================
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.className = savedTheme + '-mode';
+        updateThemeIcon();
+
+        themeToggle.addEventListener('click', () => {
+            const currentMode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
+            const newMode = currentMode === 'light' ? 'dark' : 'light';
+            document.body.className = newMode + '-mode';
+            localStorage.setItem('theme', newMode);
+            updateThemeIcon();
+        });
+
+        function updateThemeIcon() {
+            const isDark = document.body.classList.contains('dark-mode');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+
+        // ========================================
+        // NAVIGATION
+        // ========================================
+        const pages = ['homePage', 'shoppingPage', 'morningPage', 'eveningPage', 'parentPage'];
+        const pageTitles = {
+            'homePage': 'Familien-Manager',
+            'shoppingPage': '🛒 Einkaufen',
+            'morningPage': '🌅 Morgenroutine',
+            'eveningPage': '🌙 Abendroutine',
+            'parentPage': '👨‍👩‍👧‍👦 Elterndashboard'
+        };
+
+        function navigate(pageName) {
+            const pageMap = {
+                'shopping': 'shoppingPage',
+                'morning': 'morningPage',
+                'evening': 'eveningPage',
+                'parent': 'parentPage'
+            };
+
+            pages.forEach(page => document.getElementById(page).classList.remove('active'));
+            const targetPage = pageMap[pageName];
+            document.getElementById(targetPage).classList.add('active');
+            document.getElementById('headerTitle').textContent = pageTitles[targetPage];
+            document.getElementById('backBtn').classList.add('show');
+            currentPage = pageName;
+
+            if (pageName === 'morning') setupMorningRoutine();
+            if (pageName === 'evening') setupEveningRoutine();
+            if (pageName === 'shopping') setupShoppingPage();
+            if (pageName === 'parent') setupParentDashboard();
+        }
+
+        document.getElementById('backBtn').addEventListener('click', () => {
+            pages.forEach(page => document.getElementById(page).classList.remove('active'));
+            document.getElementById('homePage').classList.add('active');
+            document.getElementById('headerTitle').textContent = pageTitles['homePage'];
+            document.getElementById('backBtn').classList.remove('show');
+            currentPage = 'home';
+        });
+
+        // ========================================
+        // DATA MANAGEMENT (LocalStorage)
+        // ========================================
+        function saveData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function loadData(key, defaultValue = null) {
+            const data = localStorage.getItem(key);
+            return data ? JSON.parse(data) : defaultValue;
+        }
+
+        function loadAllData() {
+            // Initialize default data structures if not exist
+            if (!loadData('shoppingList')) {
+                saveData('shoppingList', []);
+                saveData('shoppingCategories', ['Obst & Gemüse', 'Molkereiprodukte', 'Fleisch', 'Brot', 'Getränke', 'Sonstiges']);
+                saveData('productHistory', {});
+                saveData('receipts', []);
+                saveData('regularTasks', []);
+                saveData('specialTasks', []);
+            }
+
+            // Initialize routine statuses for today
+            const today = new Date().toISOString().split('T')[0];
+            if (!loadData(`routineStatus-${today}`)) {
+                const routineStatus = {};
+                CHILDREN.forEach(child => {
+                    routineStatus[child] = {
+                        morning: {},
+                        evening: {},
+                        specialTasks: []
+                    };
+                });
+                saveData(`routineStatus-${today}`, routineStatus);
+            }
+        }
+
+        // ======================================== 
+        // SHOPPING PAGE
+        // ========================================
+        function setupShoppingPage() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('currentListDate').textContent = new Date().toLocaleDateString('de-DE');
+            
+            loadFavorites();
+            loadShoppingList();
+            loadSuggestions();
+            document.getElementById('productInput').focus();
+        }
+
+        function switchShoppingTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const btns = document.querySelectorAll('.tab-btn');
+            tabs.forEach(t => t.classList.remove('active'));
+            btns.forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'history') {
+                loadStatistics();
+            }
+        }
+
+        function addProductToList() {
+            const input = document.getElementById('productInput');
+            if (!input.value.trim()) return;
+
+            const productName = input.value.trim();
+            const categories = loadData('shoppingCategories', []);
+            
+            // Open category selection modal
+            openCategoryModal(productName, categories);
+            input.value = '';
+        }
+
+        document.getElementById('productInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addProductToList();
+        });
+
+        function openCategoryModal(productName, categories) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Kategorie für "${productName}"</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Wähle eine Kategorie:</label>
+                        <select id="categorySelect">
+                            ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                            <option value="__new__">+ Neue Kategorie erstellen</option>
+                        </select>
+                    </div>
+                    <div id="newCategoryDiv" style="display: none;">
+                        <div class="form-group">
+                            <label>Neue Kategorie:</label>
+                            <input type="text" id="newCategoryInput" placeholder="z.B. Tierfutter">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Menge:</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="number" id="quantityInput" value="1" step="0.5" style="flex: 1;">
+                            <input type="text" id="unitInput" placeholder="kg, L, Stk." style="flex: 0.5;">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary btn-block" onclick="addProductConfirm('${productName}')">✓ Hinzufügen</button>
+                        <button class="btn btn-secondary btn-block" onclick="this.closest('.modal').remove()">Abbrechen</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            const select = modal.querySelector('#categorySelect');
+            select.addEventListener('change', (e) => {
+                document.getElementById('newCategoryDiv').style.display = e.target.value === '__new__' ? 'block' : 'none';
+            });
+        }
+
+        function addProductConfirm(productName) {
+            const select = document.querySelector('#categorySelect');
+            let category = select.value;
+            
+            if (category === '__new__') {
+                category = document.querySelector('#newCategoryInput').value.trim();
+                if (!category) {
+                    alert('Bitte gib einen Kategorienamen ein!');
+                    return;
+                }
+                const categories = loadData('shoppingCategories', []);
+                categories.push(category);
+                saveData('shoppingCategories', categories);
+            }
+
+            const quantity = parseFloat(document.querySelector('#quantityInput').value) || 1;
+            const unit = document.querySelector('#unitInput').value.trim() || 'Stk.';
+
+            const list = loadData('shoppingList', []);
+            list.push({
+                id: Date.now(),
+                name: productName,
+                category: category,
+                quantity: quantity,
+                unit: unit,
+                checked: false
+            });
+            saveData('shoppingList', list);
+
+            // Update product history for suggestions
+            const history = loadData('productHistory', {});
+            if (!history[productName]) {
+                history[productName] = { count: 0, lastPurchase: null, defaultQty: quantity, unit: unit };
+            }
+            history[productName].count += 1;
+            saveData('productHistory', history);
+
+            document.querySelector('.modal').remove();
+            loadShoppingList();
+            loadFavorites();
+        }
+
+        function loadShoppingList() {
+            const list = loadData('shoppingList', []);
+            const categoriesSet = new Set(list.map(item => item.category));
+            const categories = Array.from(categoriesSet).sort();
+
+            let html = '';
+            categories.forEach(category => {
+                const items = list.filter(item => item.category === category);
+                html += `
+                    <div style="margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1rem; opacity: 0.7;">${category}</h3>
+                        <div class="shopping-list">
+                            ${items.map(item => `
+                                <div class="list-item ${item.checked ? 'checked' : ''}">
+                                    <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleProduct(${item.id})">
+                                    <div class="list-item-info">
+                                        <div class="list-item-name">${item.name}</div>
+                                        <div class="list-item-category">${category}</div>
+                                    </div>
+                                    <div class="list-item-quantity">${item.quantity}${item.unit}</div>
+                                    <button onclick="deleteProduct(${item.id})" style="background: #f44336; color: white; border: none; padding: 0.5rem; border-radius: 4px; cursor: pointer;">✕</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('categorizedList').innerHTML = html || '<p style="opacity: 0.6;">Noch keine Produkte hinzugefügt. Nutze das Eingabefeld oben!</p>';
+        }
+
+        function toggleProduct(id) {
+            const list = loadData('shoppingList', []);
+            const item = list.find(i => i.id === id);
+            if (item) {
+                item.checked = !item.checked;
+                saveData('shoppingList', list);
+                loadShoppingList();
+            }
+        }
+
+        function deleteProduct(id) {
+            const list = loadData('shoppingList', []);
+            const filtered = list.filter(i => i.id !== id);
+            saveData('shoppingList', filtered);
+            loadShoppingList();
+        }
+
+        function loadFavorites() {
+            const history = loadData('productHistory', {});
+            const sorted = Object.entries(history)
+                .sort((a, b) => b[1].count - a[1].count)
+                .slice(0, 5);
+
+            let html = '';
+            if (sorted.length === 0) {
+                html = '<p style="opacity: 0.6;">Keine Favoriten vorhanden. Nach dem ersten Einkauf erscheinen hier deine häufigsten Produkte!</p>';
+            } else {
+                html = sorted.map(([name, data]) => `
+                    <button class="favorite-btn" onclick="addFavoriteToList('${name}', ${data.defaultQty}, '${data.unit}')">
+                        ${name}
+                    </button>
+                `).join('');
+            }
+            document.getElementById('favoritesList').innerHTML = html;
+        }
+
+        function addFavoriteToList(productName, qty, unit) {
+            const categories = loadData('shoppingCategories', []);
+            const history = loadData('productHistory', {});
+            const productHistory = history[productName];
+            const defaultCategory = productHistory?.category || 'Sonstiges';
+
+            const list = loadData('shoppingList', []);
+            list.push({
+                id: Date.now(),
+                name: productName,
+                category: defaultCategory,
+                quantity: qty,
+                unit: unit,
+                checked: false
+            });
+            saveData('shoppingList', list);
+            loadShoppingList();
+        }
+
+        function loadSuggestions() {
+            const history = loadData('productHistory', {});
+            const list = loadData('shoppingList', []);
+            const suggestions = [];
+
+            // Simple suggestion logic based on inventory
+            for (let [product, data] of Object.entries(history)) {
+                const isInList = list.some(item => item.name === product);
+                if (!isInList && data.count > 2) {
+                    suggestions.push(`${product} (${data.defaultQty}${data.unit}) - du brauchst das regelmäßig!`);
+                }
+            }
+
+            if (suggestions.length > 0) {
+                document.getElementById('suggestionsSection').style.display = 'block';
+                document.getElementById('suggestionsList').innerHTML = suggestions.map(s => `<div class="suggestion-item">💡 ${s}</div>`).join('');
+            } else {
+                document.getElementById('suggestionsSection').style.display = 'none';
+            }
+        }
+
+        function enterShoppingMode() {
+            alert('🛒 Du befindest dich jetzt im Einkaufsmodus! Mach einen Haken bei den gekauften Produkten. Sie verschwinden dann aus der Liste.');
+        }
+
+        function openNewListModal() {
+            alert('📋 Neue Liste erstellt für ' + new Date().toLocaleDateString('de-DE'));
+            saveData('shoppingList', []);
+            loadShoppingList();
+        }
+
+        function uploadOtherReceipt() {
+            const category = document.getElementById('storecategory').value;
+            const storeName = document.getElementById('storeName').value;
+            const amount = parseFloat(document.getElementById('storeAmount').value);
+            const file = document.getElementById('receiptPhoto').files[0];
+
+            if (!category || !storeName || !amount) {
+                alert('Bitte fülle alle Felder aus!');
+                return;
+            }
+
+            const receipt = {
+                id: Date.now(),
+                date: new Date().toISOString().split('T')[0],
+                category: category,
+                store: storeName,
+                amount: amount,
+                image: file ? 'uploaded' : null
+            };
+
+            const receipts = loadData('receipts', []);
+            receipts.push(receipt);
+            saveData('receipts', receipts);
+
+            alert('✓ Einkauf registriert!');
+            document.getElementById('storecategory').value = '';
+            document.getElementById('storeName').value = '';
+            document.getElementById('storeAmount').value = '';
+            document.getElementById('receiptPhoto').value = '';
+        }
+
+        function loadStatistics() {
+            const monthValue = document.getElementById('statisticMonth').value;
+            if (!monthValue) return;
+
+            const receipts = loadData('receipts', []);
+            const [year, month] = monthValue.split('-');
+            const filtered = receipts.filter(r => r.date.startsWith(year + '-' + month));
+
+            const stats = {};
+            filtered.forEach(r => {
+                if (!stats[r.category]) stats[r.category] = 0;
+                stats[r.category] += r.amount;
+            });
+
+            const total = Object.values(stats).reduce((a, b) => a + b, 0);
+            let html = `<h3>📊 Statistik für ${monthValue}</h3><table style="width: 100%; margin-top: 1rem;">`;
+            
+            for (let [cat, amount] of Object.entries(stats)) {
+                const percent = ((amount / total) * 100).toFixed(1);
+                html += `<tr><td>${cat}</td><td style="text-align: right;"><strong>€${amount.toFixed(2)}</strong> (${percent}%)</td></tr>`;
+            }
+            
+            html += `<tr style="border-top: 2px solid var(--border);"><td><strong>GESAMT</strong></td><td style="text-align: right;"><strong>€${total.toFixed(2)}</strong></td></tr></table>`;
+            document.getElementById('statisticsContainer').innerHTML = html;
+        }
+
+        // ========================================
+        // MORNING ROUTINE
+        // ========================================
+        function setupMorningRoutine() {
+            document.getElementById('childSelectionMorning').style.display = 'block';
+            document.getElementById('morningRoutineDetail').style.display = 'none';
+
+            let html = CHILDREN.map(child => `
+                <button class="child-btn" onclick="selectChildMorning('${child}')" style="background: #FFC107; color: white;">
+                    👧 ${child}
+                </button>
+            `).join('');
+
+            document.getElementById('morningChildrenGrid').innerHTML = html;
+        }
+
+        function selectChildMorning(child) {
+            currentChild = child;
+            document.getElementById('childSelectionMorning').style.display = 'none';
+            document.getElementById('morningRoutineDetail').style.display = 'block';
+            document.getElementById('morningChildName').textContent = child;
+            loadMorningRoutineDetail();
+            updateChildSwitcher('morning');
+        }
+
+        function loadMorningRoutineDetail() {
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            const childStatus = routineStatus[currentChild] || { morning: {}, special: [] };
+
+            let checklistHtml = '';
+            MORNING_TASKS.forEach(task => {
+                const checked = childStatus.morning[task] || false;
+                checklistHtml += `
+                    <div class="checklist-item" onclick="this.querySelector('input').checked = !this.querySelector('input').checked; toggleMorningTask('${task}')">
+                        <input type="checkbox" ${checked ? 'checked' : ''} class="toggle-morning">
+                        <label class="checklist-item-label" style="${checked ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${task}</label>
+                    </div>
+                `;
+            });
+
+            document.getElementById('morningCheckList').innerHTML = checklistHtml;
+            updateMorningProgress();
+            loadMorningSpecialTasks();
+        }
+
+        function toggleMorningTask(task) {
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            if (!routineStatus[currentChild]) routineStatus[currentChild] = { morning: {}, evening: {}, specialTasks: [] };
+            
+            routineStatus[currentChild].morning[task] = !routineStatus[currentChild].morning[task];
+            saveData(`routineStatus-${today}`, routineStatus);
+            loadMorningRoutineDetail();
+        }
+
+        function updateMorningProgress() {
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            const childStatus = routineStatus[currentChild]?.morning || {};
+
+            const completed = Object.values(childStatus).filter(v => v).length;
+            const total = MORNING_TASKS.length;
+            const percentage = Math.round((completed / total) * 100);
+
+            const progressBar = document.getElementById('morningProgress');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+        }
+
+        function loadMorningSpecialTasks() {
+            const regularTasks = loadData('regularTasks', []);
+            const specialTasks = loadData('specialTasks', []);
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const dateStr = today.toISOString().split('T')[0];
+
+            let tasksToShow = [];
+
+            // Regular tasks
+            regularTasks.forEach(task => {
+                if (task.children.includes(currentChild) && task.routine.includes('morgen')) {
+                    if (task.frequency.days.includes(dayOfWeek)) {
+                        tasksToShow.push(task);
+                    }
+                }
+            });
+
+            // Special tasks
+            specialTasks.forEach(task => {
+                if (task.children.includes(currentChild)) {
+                    const taskDate = task.date;
+                    const showDate = task.showTime === 'vorabend' ? dateStr : dateStr;
+                    if (taskDate === showDate || (task.showTime === 'vorabend' && taskDate === dateStr)) {
+                        tasksToShow.push(task);
+                    }
+                }
+            });
+
+            if (tasksToShow.length > 0) {
+                document.getElementById('morningSpecialTasks').style.display = 'block';
+                let html = tasksToShow.map(task => `<div class="special-task-item">${task.description}</div>`).join('');
+                document.getElementById('morningSpecialTasksList').innerHTML = html;
+            } else {
+                document.getElementById('morningSpecialTasks').style.display = 'none';
+            }
+        }
+
+        function updateChildSwitcher(routine) {
+            const switcherId = routine === 'morning' ? 'morningChildSwitcher' : 'eveningChildSwitcher';
+            let html = CHILDREN.map(child => `
+                <button class="child-switcher-btn ${child === currentChild ? 'active' : ''}" onclick="selectChild${routine === 'morning' ? 'Morning' : 'Evening'}('${child}')">
+                    ${child}
+                </button>
+            `).join('');
+            document.getElementById(switcherId).innerHTML = html;
+        }
+
+        // ========================================
+        // EVENING ROUTINE
+        // ========================================
+        function setupEveningRoutine() {
+            document.getElementById('childSelectionEvening').style.display = 'block';
+            document.getElementById('eveningRoutineDetail').style.display = 'none';
+
+            let html = CHILDREN.map(child => `
+                <button class="child-btn" onclick="selectChildEvening('${child}')" style="background: #2196F3; color: white;">
+                    👧 ${child}
+                </button>
+            `).join('');
+
+            document.getElementById('eveningChildrenGrid').innerHTML = html;
+        }
+
+        function selectChildEvening(child) {
+            currentChild = child;
+            document.getElementById('childSelectionEvening').style.display = 'none';
+            document.getElementById('eveningRoutineDetail').style.display = 'block';
+            document.getElementById('eveningChildName').textContent = child;
+            loadEveningRoutineDetail();
+            updateChildSwitcher('evening');
+        }
+
+        function loadEveningRoutineDetail() {
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            const childStatus = routineStatus[currentChild] || { evening: {}, special: [] };
+            const dayOfWeek = new Date().getDay();
+            const isMonday = dayOfWeek === 1;
+
+            let checklistHtml = '';
+            EVENING_TASKS.forEach(task => {
+                const checked = childStatus.evening[task] || false;
+
+                if (task === 'Zähne putzen') {
+                    checklistHtml += `
+                        <div class="checklist-item">
+                            <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleEveningTask('${task}')">
+                            <label class="checklist-item-label">${task}</label>
+                            <button class="btn btn-secondary btn-block" style="width: auto; margin-left: auto;" onclick="openTeethModal()">[>]</button>
+                        </div>
+                    `;
+                } else {
+                    checklistHtml += `
+                        <div class="checklist-item" onclick="this.querySelector('input').checked = !this.querySelector('input').checked; toggleEveningTask('${task}')">
+                            <input type="checkbox" ${checked ? 'checked' : ''} class="toggle-evening">
+                            <label class="checklist-item-label" style="${checked ? 'text-decoration: line-through; opacity: 0.5;' : ''}">${task}</label>
+                        </div>
+                    `;
+                }
+            });
+
+            document.getElementById('eveningCheckList').innerHTML = checklistHtml;
+            updateEveningProgress();
+            loadEveningSpecialTasks();
+        }
+
+        function openTeethModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            const dayOfWeek = new Date().getDay();
+            const isMonday = dayOfWeek === 1;
+
+            let teeth = TEETH_SUBTASKS.slice();
+            if (isMonday) teeth.push('Sensodyne (Montag)');
+
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            const childStatus = routineStatus[currentChild] || { teeth: {} };
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">🪥 Zahnpflege-Routine</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+                    <div class="checklist">
+                        ${teeth.map(task => `
+                            <div class="checklist-item" onclick="this.querySelector('input').checked = !this.querySelector('input').checked">
+                                <input type="checkbox" onchange="saveTeethSubtask('${task}')">
+                                <label class="checklist-item-label">${task}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button class="btn btn-primary btn-block" style="margin-top: 1.5rem;" onclick="this.closest('.modal').remove()">✓ Fertig</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function saveTeethSubtask(task) {
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            if (!routineStatus[currentChild]) routineStatus[currentChild] = { evening: {}, teeth: {} };
+            if (!routineStatus[currentChild].teeth) routineStatus[currentChild].teeth = {};
+
+            routineStatus[currentChild].teeth[task] = !routineStatus[currentChild].teeth[task];
+            saveData(`routineStatus-${today}`, routineStatus);
+        }
+
+        function toggleEveningTask(task) {
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            if (!routineStatus[currentChild]) routineStatus[currentChild] = { evening: {}, teeth: {} };
+            
+            routineStatus[currentChild].evening[task] = !routineStatus[currentChild].evening[task];
+            saveData(`routineStatus-${today}`, routineStatus);
+            loadEveningRoutineDetail();
+        }
+
+        function updateEveningProgress() {
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            const childStatus = routineStatus[currentChild]?.evening || {};
+
+            const completed = Object.values(childStatus).filter(v => v).length;
+            const total = EVENING_TASKS.length;
+            const percentage = Math.round((completed / total) * 100);
+
+            const progressBar = document.getElementById('eveningProgress');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+        }
+
+        function loadEveningSpecialTasks() {
+            const regularTasks = loadData('regularTasks', []);
+            const specialTasks = loadData('specialTasks', []);
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const dateStr = today.toISOString().split('T')[0];
+
+            let tasksToShow = [];
+
+            regularTasks.forEach(task => {
+                if (task.children.includes(currentChild) && task.routine.includes('abend')) {
+                    if (task.frequency.days.includes(dayOfWeek)) {
+                        tasksToShow.push(task);
+                    }
+                }
+            });
+
+            specialTasks.forEach(task => {
+                if (task.children.includes(currentChild)) {
+                    if (task.date === dateStr) {
+                        tasksToShow.push(task);
+                    }
+                }
+            });
+
+            if (tasksToShow.length > 0) {
+                document.getElementById('eveningSpecialTasks').style.display = 'block';
+                let html = tasksToShow.map(task => `<div class="special-task-item">${task.description}</div>`).join('');
+                document.getElementById('eveningSpecialTasksList').innerHTML = html;
+            } else {
+                document.getElementById('eveningSpecialTasks').style.display = 'none';
+            }
+        }
+
+        // ========================================
+        // PARENT DASHBOARD
+        // ========================================
+        function setupParentDashboard() {
+            displayParentTasks();
+        }
+
+        function openTaskModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">➕ Neue Aufgabe/Ereignis</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">1. Aufgabentyp</div>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="taskType" value="regular" checked onchange="toggleTaskTypeFields()">
+                                Regelmäßige Aufgabe
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="taskType" value="special" onchange="toggleTaskTypeFields()">
+                                Einmaliges Ereignis
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">2. Aufgabenbeschreibung</div>
+                        <input type="text" id="taskDescription" placeholder="z.B. Sportzeug mitnehmen" class="form-group">
+                    </div>
+
+                    <div id="frequencySection" class="form-section">
+                        <div class="form-section-title">3. Häufigkeit</div>
+                        <label style="margin-bottom: 1rem;">
+                            <input type="radio" name="frequency" value="weekly" checked onchange="updateFrequencyDisplay()">
+                            Wöchentlich (Wochentage wählen)
+                        </label>
+                        <div class="weekday-selector" id="weekdaySelector" style="margin-bottom: 1rem;">
+                            <button class="weekday-btn" data-day="0">Mo</button>
+                            <button class="weekday-btn" data-day="1">Di</button>
+                            <button class="weekday-btn" data-day="2">Mi</button>
+                            <button class="weekday-btn" data-day="3">Do</button>
+                            <button class="weekday-btn" data-day="4">Fr</button>
+                            <button class="weekday-btn" data-day="5">Sa</button>
+                            <button class="weekday-btn" data-day="6">So</button>
+                        </div>
+                    </div>
+
+                    <div id="dateSection" class="form-section" style="display: none;">
+                        <div class="form-section-title">4. Datum</div>
+                        <input type="date" id="taskDate" class="form-group">
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">5. Betrifft (Kinder)</div>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="childrenSelect" value="all" checked onchange="updateChildrenDisplay()">
+                                Alle Kinder
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="childrenSelect" value="specific" onchange="updateChildrenDisplay()">
+                                Einzelne Kinder
+                            </label>
+                        </div>
+                        <div id="childrenCheckboxes" class="children-checkboxes" style="display: none; margin-top: 1rem;">
+                            ${CHILDREN.map(child => `
+                                <label class="children-checkbox">
+                                    <input type="checkbox" value="${child}" class="child-checkbox">
+                                    ${child}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">6. Anzeigezeit</div>
+                        <label class="radio-item">
+                            <input type="radio" name="routineTime" value="morgens" checked>
+                            Nur morgens
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="routineTime" value="abends">
+                            Nur abends
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="routineTime" value="both">
+                            Morgens + Abends
+                        </label>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">7. Zeitpunkt der Anzeige</div>
+                        <label class="radio-item">
+                            <input type="radio" name="showTiming" value="same_day" checked>
+                            Am Morgen des Tages
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="showTiming" value="evening_before">
+                            Am Vorabend
+                        </label>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary btn-block" onclick="saveNewTask()">✓ Speichern</button>
+                        <button class="btn btn-secondary btn-block" onclick="this.closest('.modal').remove()">Abbrechen</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            setupWeekdayButtons();
+        }
+
+        function toggleTaskTypeFields() {
+            const isRegular = document.querySelector('input[name="taskType"]:checked').value === 'regular';
+            document.getElementById('frequencySection').style.display = isRegular ? 'block' : 'none';
+            document.getElementById('dateSection').style.display = isRegular ? 'none' : 'block';
+        }
+
+        function updateChildrenDisplay() {
+            const isSpecific = document.querySelector('input[name="childrenSelect"]:checked').value === 'specific';
+            document.getElementById('childrenCheckboxes').style.display = isSpecific ? 'grid' : 'none';
+        }
+
+        function setupWeekdayButtons() {
+            document.querySelectorAll('.weekday-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    btn.classList.toggle('active');
+                });
+            });
+        }
+
+        function saveNewTask() {
+            const description = document.getElementById('taskDescription').value.trim();
+            if (!description) {
+                alert('Bitte gib eine Aufgabenbeschreibung ein!');
+                return;
+            }
+
+            const taskType = document.querySelector('input[name="taskType"]:checked').value;
+            const routineTime = document.querySelector('input[name="routineTime"]:checked').value;
+            const showTiming = document.querySelector('input[name="showTiming"]:checked').value;
+
+            let childrenList;
+            if (document.querySelector('input[name="childrenSelect"]:checked').value === 'all') {
+                childrenList = [...CHILDREN];
+            } else {
+                childrenList = Array.from(document.querySelectorAll('.child-checkbox:checked')).map(el => el.value);
+                if (childrenList.length === 0) {
+                    alert('Bitte wähle mindestens ein Kind aus!');
+                    return;
+                }
+            }
+
+            const task = {
+                id: Date.now(),
+                description: description,
+                routine: routineTime === 'morgens' ? ['morgen'] : routineTime === 'abends' ? ['abend'] : ['morgen', 'abend'],
+                children: childrenList,
+                showTime: showTiming
+            };
+
+            if (taskType === 'regular') {
+                const days = [];
+                document.querySelectorAll('.weekday-btn.active').forEach(btn => {
+                    days.push(parseInt(btn.dataset.day));
+                });
+
+                if (days.length === 0) {
+                    alert('Bitte wähle mindestens einen Wochentag aus!');
+                    return;
+                }
+
+                task.frequency = { days: days };
+                const regularTasks = loadData('regularTasks', []);
+                regularTasks.push(task);
+                saveData('regularTasks', regularTasks);
+            } else {
+                const date = document.getElementById('taskDate').value;
+                if (!date) {
+                    alert('Bitte wähle ein Datum aus!');
+                    return;
+                }
+                task.date = date;
+                const specialTasks = loadData('specialTasks', []);
+                specialTasks.push(task);
+                saveData('specialTasks', specialTasks);
+            }
+
+            document.querySelector('.modal').remove();
+            setupParentDashboard();
+            alert('✓ Aufgabe gespeichert!');
+        }
+
+        function displayParentTasks() {
+            const regularTasks = loadData('regularTasks', []);
+            const specialTasks = loadData('specialTasks', []);
+
+            // Regular tasks
+            let regularHtml = '';
+            if (regularTasks.length === 0) {
+                regularHtml = '<p style="opacity: 0.6;">Keine regelmäßigen Aufgaben vorhanden.</p>';
+            } else {
+                regularHtml = regularTasks.map(task => `
+                    <div class="task-card">
+                        <div class="task-card-info">
+                            <h3>${task.description}</h3>
+                            <div class="task-card-meta">📅 ${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'][task.frequency.days[0]]} (+ ${task.frequency.days.length - 1 > 0 ? task.frequency.days.length - 1 + ' weitere Tage' : ''})</div>
+                            <div class="task-card-children">👧 ${task.children.join(', ')}</div>
+                        </div>
+                        <div class="task-card-actions">
+                            <button class="btn" style="background: #f44336; color: white;" onclick="deleteTask(${task.id}, 'regular')">Löschen</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Special tasks
+            let specialHtml = '';
+            if (specialTasks.length === 0) {
+                specialHtml = '<p style="opacity: 0.6;">Keine einmaligen Ereignisse vorhanden.</p>';
+            } else {
+                specialHtml = specialTasks.map(task => `
+                    <div class="task-card special">
+                        <div class="task-card-info">
+                            <h3>${task.description}</h3>
+                            <div class="task-card-meta">📅 ${new Date(task.date).toLocaleDateString('de-DE')}</div>
+                            <div class="task-card-children">👧 ${task.children.join(', ')}</div>
+                        </div>
+                        <div class="task-card-actions">
+                            <button class="btn" style="background: #f44336; color: white;" onclick="deleteTask(${task.id}, 'special')">Löschen</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('regularTasksList').innerHTML = regularHtml;
+            document.getElementById('specialTasksList').innerHTML = specialHtml;
+        }
+
+        function deleteTask(id, type) {
+            if (type === 'regular') {
+                let tasks = loadData('regularTasks', []);
+                tasks = tasks.filter(t => t.id !== id);
+                saveData('regularTasks', tasks);
+            } else {
+                let tasks = loadData('specialTasks', []);
+                tasks = tasks.filter(t => t.id !== id);
+                saveData('specialTasks', tasks);
+            }
+            setupParentDashboard();
+        }
+
+        // Initialize app
+        initApp();
+    </script>
+</body>
+</html>
