@@ -10,6 +10,7 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%232196F3' width='192' height='192'/><text x='96' y='120' font-size='100' font-weight='bold' fill='white' text-anchor='middle'>👨‍👩‍👧‍👦</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%232196F3' width='192' height='192'/><text x='96' y='120' font-size='100' font-weight='bold' fill='white' text-anchor='middle'>👨‍👩‍👧‍👦</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -191,6 +192,67 @@
 
         .card-parent {
             border-left: 4px solid #4CAF50;
+        }
+
+        .card-dashboard {
+            border-left: 4px solid #9C27B0;
+        }
+
+        .card-calendar {
+            border-left: 4px solid #FF5722;
+        }
+
+        .card-child {
+            border-left: 4px solid #2196F3;
+        }
+
+        /* CALENDAR STYLES */
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-day {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            cursor: pointer;
+            min-height: 80px;
+            position: relative;
+        }
+
+        .calendar-day.today {
+            background: var(--primary);
+            color: white;
+        }
+
+        .calendar-day.other-month {
+            opacity: 0.5;
+        }
+
+        .calendar-day-number {
+            font-weight: bold;
+        }
+
+        .calendar-events {
+            margin-top: 0.5rem;
+        }
+
+        .calendar-event {
+            font-size: 0.8rem;
+            margin-bottom: 0.2rem;
+            padding: 0.2rem;
+            border-radius: 3px;
+            color: white;
         }
 
         /* PAGE CONTENT (Hidden by default) */
@@ -809,6 +871,457 @@
         .children-checkbox input[type="checkbox"] {
             cursor: pointer;
         }
+
+        /* ===== GAMIFICATION STYLES ===== */
+        .stars-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .stars-number {
+            font-size: 1.5rem;
+        }
+
+        .reward-notification {
+            background: #4CAF50;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .star-animation {
+            font-size: 3rem;
+            animation: starPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes starPop {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2) rotate(10deg);
+            }
+            100% {
+                transform: scale(1) translate(0, -100px);
+                opacity: 0;
+            }
+        }
+
+        .rocket {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            font-size: 3rem;
+            z-index: 9999;
+            animation: rocketLaunch 2s ease-in forwards;
+        }
+
+        @keyframes rocketLaunch {
+            0% {
+                transform: translateX(-50%) translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-50%) translateY(-150vh) rotate(-20deg);
+                opacity: 0;
+            }
+        }
+
+        .firework {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        @keyframes burst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.1);
+            }
+        }
+
+        @keyframes starPop {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        .star-animation {
+            display: inline-block;
+            animation: starPop 0.5s ease;
+            font-size: 2rem;
+        }
+
+        /* REWARDS SECTION */
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .reward-card {
+            background: var(--bg);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .reward-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+        }
+
+        .reward-card.unlocked {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+
+        .reward-card.achieved {
+            opacity: 0.5;
+            border-style: dashed;
+        }
+
+        .reward-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-stars {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-progress {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .reward-progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .reward-button {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .reward-button:hover:not(:disabled) {
+            background: #1976D2;
+        }
+
+        .reward-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* WEEKLY OVERVIEW */
+        .weekly-overview {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .child-overview-card {
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .overview-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .child-avatar {
+            font-size: 2.5rem;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overview-info h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .overview-stars {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .weekly-tasks {
+            background: var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .task-item-overview {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .task-item-overview:not(:last-child) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .task-count {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .next-reward-info {
+            background: var(--accent);
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .next-reward-info strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* REMINDER/NOTIFICATION STYLES */
+        .reminders-section {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .time-picker-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .time-picker-group input[type="time"] {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .missed-tasks-alert {
+            background: #ff9800;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .missed-task-item {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .missed-task-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* CHAOS MODE */
+        .chaos-mode-button {
+            background: linear-gradient(135deg, #FF5252 0%, #FF9800 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3);
+        }
+
+        .chaos-mode-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 82, 82, 0.4);
+        }
+
+        /* AUTOPILOT SUGGESTIONS */
+        .suggestions-list {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .suggestion-card {
+            background: var(--bg);
+            border-left: 4px solid var(--accent);
+            border-radius: 6px;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .suggestion-content {
+            flex: 1;
+        }
+
+        .suggestion-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .suggestion-description {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .suggestion-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .suggestion-actions button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .suggestion-add {
+            background: var(--primary);
+            color: white;
+        }
+
+        .suggestion-add:hover {
+            background: #1976D2;
+        }
+
+        .suggestion-dismiss {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .suggestion-dismiss:hover {
+            opacity: 0.7;
+        }
+
+        /* INDIVIDUAL TASKS DASHBOARD */
+        .individual-tasks-section {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .individual-task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--border);
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+        }
+
+        .individual-task-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .individual-task-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .individual-task-meta {
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        .individual-task-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
     </style>
 </head>
 <body class="light-mode">
@@ -828,38 +1341,55 @@
         <!-- HOME PAGE -->
         <div id="homePage" class="page-content active">
             <div class="home-grid">
-                <button class="card card-shopping" onclick="navigate('shopping')">
+                <button type="button" class="card card-shopping" data-page="shopping">
                     <div class="card-icon">🛒</div>
                     <div class="card-title">Einkaufen</div>
                     <div class="card-description">Listen & Belege</div>
                 </button>
 
-                <button class="card card-morning" onclick="navigate('morning')">
+                <button type="button" class="card card-morning" data-page="morning">
                     <div class="card-icon">🌅</div>
                     <div class="card-title">Morgenroutine</div>
                     <div class="card-description">Tägliche Aufgaben</div>
                 </button>
 
-                <button class="card card-evening" onclick="navigate('evening')">
+                <button type="button" class="card card-evening" data-page="evening">
                     <div class="card-icon">🌙</div>
                     <div class="card-title">Abendroutine</div>
                     <div class="card-description">Abendrituale</div>
                 </button>
 
-                <button class="card card-parent" onclick="navigate('parent')">
-                    <div class="card-icon">👨‍👩‍👧‍👦</div>
-                    <div class="card-title">Elterndashboard</div>
-                    <div class="card-description">Verwaltung & Planung</div>
+                <button type="button" class="card card-dashboard" data-page="dashboard">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Dashboard</div>
+                    <div class="card-description">Übersicht & Verwaltung</div>
                 </button>
+
+                <button type="button" class="card card-calendar" data-page="calendar">
+                    <div class="card-icon">📅</div>
+                    <div class="card-title">Kalender</div>
+                    <div class="card-description">Termine & Ereignisse</div>
+                </button>
+            </div>
+
+            <!-- TODAY'S EVENTS -->
+            <div class="today-events" style="margin-top: 2rem; padding: 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3 id="eventsTitle">📅 Heute</h3>
+                    <button onclick="toggleEventsView()">Woche anzeigen</button>
+                </div>
+                <div id="todayEventsList">
+                    <p>Keine Termine heute.</p>
+                </div>
             </div>
         </div>
 
         <!-- SHOPPING PAGE -->
         <div id="shoppingPage" class="page-content">
             <div class="shopping-tabs">
-                <button class="tab-btn active" onclick="switchShoppingTab('list')">📋 Aktive Liste</button>
-                <button class="tab-btn" onclick="switchShoppingTab('history')">📊 Auswertung</button>
-                <button class="tab-btn" onclick="switchShoppingTab('other')">🏪 Sonstige</button>
+                <button class="tab-btn active" onclick="switchShoppingTab('list', this)">📋 Aktive Liste</button>
+                <button class="tab-btn" onclick="switchShoppingTab('history', this)">📊 Auswertung</button>
+                <button class="tab-btn" onclick="switchShoppingTab('other', this)">🏪 Sonstige</button>
             </div>
 
             <!-- AKTIVE LISTE TAB -->
@@ -891,7 +1421,7 @@
                 <div id="categorizedList" class="shopping-list"></div>
 
                 <div style="margin-top: 2rem;">
-                    <button class="btn btn-primary btn-block" onclick="enterShoppingMode()">🛒 Einkaufsmodus starten</button>
+                    <button id="shoppingModeBtn" class="btn btn-primary btn-block" onclick="enterShoppingMode()">🛒 Einkaufsmodus starten</button>
                 </div>
             </div>
 
@@ -941,6 +1471,59 @@
             </div>
         </div>
 
+        <!-- DASHBOARD PAGE -->
+        <div id="dashboardPage" class="page-content">
+            <h2>📊 Dashboard</h2>
+            <div class="home-grid">
+                <button type="button" class="card card-parent" onclick="showDashboard('parent')">
+                    <div class="card-icon">👨‍👩‍👧‍👦</div>
+                    <div class="card-title">Eltern</div>
+                    <div class="card-description">Verwaltung & Planung</div>
+                </button>
+
+                <button type="button" class="card card-child" onclick="showDashboard('mathilda')">
+                    <div class="card-icon">👧</div>
+                    <div class="card-title">Mathilda</div>
+                    <div class="card-description">Persönliches Dashboard</div>
+                </button>
+
+                <button type="button" class="card card-child" onclick="showDashboard('charlotte')">
+                    <div class="card-icon">👧</div>
+                    <div class="card-title">Charlotte</div>
+                    <div class="card-description">Persönliches Dashboard</div>
+                </button>
+
+                <button type="button" class="card card-child" onclick="showDashboard('romy')">
+                    <div class="card-icon">👧</div>
+                    <div class="card-title">Romy</div>
+                    <div class="card-description">Persönliches Dashboard</div>
+                </button>
+
+                <button type="button" class="card card-child" onclick="showDashboard('bo')">
+                    <div class="card-icon">👦</div>
+                    <div class="card-title">Bo</div>
+                    <div class="card-description">Persönliches Dashboard</div>
+                </button>
+            </div>
+
+            <div id="dashboardContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+
+        <!-- CALENDAR PAGE -->
+        <div id="calendarPage" class="page-content">
+            <h2>📅 Kalender</h2>
+            <div class="calendar-controls">
+                <button onclick="prevMonth()">⬅️</button>
+                <h3 id="calendarTitle"></h3>
+                <button onclick="nextMonth()">➡️</button>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <button class="btn btn-primary" onclick="openEventModal()">+ Neues Ereignis</button>
+            <div id="eventList"></div>
+        </div>
+
         <!-- MORNING ROUTINE PAGE -->
         <div id="morningPage" class="page-content">
             <div id="childSelectionMorning" style="display: none;">
@@ -954,6 +1537,11 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="morningProgress" style="width: 0%;">0%</div>
                     </div>
+                    <div class="stars-display" id="morningStarsDisplay" style="display: none;">
+                        <span>⭐</span>
+                        <span id="morningStarsCount">0</span>
+                        <span style="font-size: 1rem;">diese Woche</span>
+                    </div>
                 </div>
 
                 <div class="checklist" id="morningCheckList"></div>
@@ -962,6 +1550,8 @@
                     <h3>⚠️ Wichtige Aufgaben für heute</h3>
                     <div id="morningSpecialTasksList"></div>
                 </div>
+
+                <button class="chaos-mode-button" onclick="openChaosModeModal('morning')" style="padding: 0.75rem 1.5rem; font-size: 1rem; margin-top: 1.5rem;">🌪️ CHAOS-MODUS</button>
 
                 <div class="child-switcher" id="morningChildSwitcher"></div>
             </div>
@@ -980,6 +1570,11 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="eveningProgress" style="width: 0%;">0%</div>
                     </div>
+                    <div class="stars-display" id="eveningStarsDisplay" style="display: none;">
+                        <span>⭐</span>
+                        <span id="eveningStarsCount">0</span>
+                        <span style="font-size: 1rem;">diese Woche</span>
+                    </div>
                 </div>
 
                 <div class="checklist" id="eveningCheckList"></div>
@@ -989,25 +1584,15 @@
                     <div id="eveningSpecialTasksList"></div>
                 </div>
 
+                <button class="chaos-mode-button" onclick="openChaosModeModal('evening')" style="padding: 0.75rem 1.5rem; font-size: 1rem; margin-top: 1.5rem;">🌪️ CHAOS-MODUS</button>
+
                 <div class="child-switcher" id="eveningChildSwitcher"></div>
             </div>
         </div>
 
-        <!-- PARENT DASHBOARD PAGE -->
+        <!-- PARENT DASHBOARD PAGE - DEPRECATED -->
         <div id="parentPage" class="page-content">
-            <button class="btn btn-primary" onclick="openTaskModal()">+ Neue Aufgabe/Ereignis</button>
-
-            <div style="margin-top: 2rem;">
-                <h3 style="margin-bottom: 1.5rem;">📋 Regelmäßige Aufgaben</h3>
-                <div class="task-list" id="regularTasksList">
-                    <p style="opacity: 0.6;">Keine regelmäßigen Aufgaben vorhanden. Klicke oben auf "+ Neue Aufgabe", um eine zu erstellen.</p>
-                </div>
-
-                <h3 style="margin: 2rem 0 1.5rem;">📅 Einmalige Ereignisse</h3>
-                <div class="task-list" id="specialTasksList">
-                    <p style="opacity: 0.6;">Keine einmaligen Ereignisse vorhanden. Klicke oben auf "+ Neue Aufgabe", um eines zu erstellen.</p>
-                </div>
-            </div>
+            <p style="text-align: center; padding: 2rem;">Bitte nutzen Sie das Dashboard auf der Startseite.</p>
         </div>
     </main>
 
@@ -1031,21 +1616,928 @@
         // APP STATE & INITIALIZATION
         // ========================================
         const CHILDREN = ['Mathilda', 'Charlotte', 'Romy', 'Bo'];
-        const MORNING_TASKS = ['Pipi machen', 'Hände waschen', 'Zähne putzen', 'Anziehen', 'Haare bürsten'];
-        const EVENING_TASKS = ['Pipi machen', 'Hände waschen', 'Haare bürsten', 'Schlafanzug anziehen', 'Zähne putzen'];
-        const TEETH_SUBTASKS = ['Normale Zahnbürste', 'Solobürste', 'Zahnseide', 'Elli'];
+        const PERSONS = ['Mama', 'Papa', ...CHILDREN]; // Erweitere mit Eltern
+        const PERSON_COLORS = {
+            'Mama': '#FF69B4',
+            'Papa': '#4169E1',
+            'Mathilda': '#32CD32',
+            'Charlotte': '#FFD700',
+            'Romy': '#FF6347',
+            'Bo': '#9370DB'
+        };
 
         let currentPage = 'home';
         let currentChild = CHILDREN[0];
+        let isShoppingMode = false;
+        let currentCalendarDate = new Date();
+        let eventsView = 'today'; // 'today' or 'week'
+
+        // ========================================
+        // FEATURE 1-3: GAMIFICATION, AUTOPILOT, MENTAL LOAD
+        // ========================================
+
+        // GAMIFICATION: Stern-System
+        function awardStars(child, amount = 1) {
+            const week = getWeekKey();
+            const stars = loadData('childStars', {});
+            if (!stars[week]) stars[week] = {};
+            if (!stars[week][child]) stars[week][child] = 0;
+            
+            stars[week][child] += amount;
+            saveData('childStars', stars);
+            
+            // Show animation
+            showStarAnimation();
+            updateStarsDisplay();
+            checkRewardUnlocked(child);
+        }
+
+        function getWeekKey() {
+            const today = new Date();
+            const firstDay = new Date(today.setDate(today.getDate() - today.getDay()));
+            return firstDay.toISOString().split('T')[0];
+        }
+
+        function getStarsThisWeek(child) {
+            const week = getWeekKey();
+            const stars = loadData('childStars', {});
+            return stars[week]?.[child] || 0;
+        }
+
+        function showStarAnimation() {
+            const animation = document.createElement('div');
+            animation.className = 'star-animation';
+            animation.textContent = '⭐';
+            animation.style.position = 'fixed';
+            animation.style.top = '50%';
+            animation.style.left = '50%';
+            animation.style.pointerEvents = 'none';
+            document.body.appendChild(animation);
+            
+            setTimeout(() => animation.remove(), 500);
+        }
+
+        function updateStarsDisplay() {
+            const morningStars = getStarsThisWeek(currentChild);
+            if (morningStars > 0) {
+                document.getElementById('morningStarsDisplay').style.display = 'flex';
+                document.getElementById('morningStarsCount').textContent = morningStars;
+            }
+            
+            const eveningStars = getStarsThisWeek(currentChild);
+            if (eveningStars > 0) {
+                document.getElementById('eveningStarsDisplay').style.display = 'flex';
+                document.getElementById('eveningStarsCount').textContent = eveningStars;
+            }
+        }
+
+        // BELOHNUNGEN-SYSTEM
+        function checkRewardUnlocked(child) {
+            const stars = getStarsThisWeek(child);
+            const rewards = loadData('rewards', []);
+            
+            rewards.forEach(reward => {
+                if (reward.children.includes(child) && stars >= reward.starsRequired && !reward.achieved) {
+                    showRewardNotification(reward);
+                    reward.achieved = true;
+                    saveData('rewards', rewards);
+                }
+            });
+        }
+
+        function showRewardNotification(reward) {
+            const notification = document.createElement('div');
+            notification.className = 'reward-notification';
+            notification.innerHTML = `
+                🎉 <strong>${reward.name}</strong> freigeschaltet!
+                <p>Du kannst die Belohnung jetzt einlösen!</p>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 5000);
+        }
+
+        // AUTOPILOT: Pattern-Erkennung & Vorschläge
+        function generateSuggestions() {
+            const suggestions = [];
+            const list = loadData('shoppingList', []);
+            const history = loadData('productHistory', {});
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const regularTasks = loadData('regularTasks', []);
+
+            // Bestand-Vorschläge
+            for (let [product, data] of Object.entries(history)) {
+                const isInList = list.some(item => item.name === product);
+                if (!isInList && data.daysUntilEmpty && data.daysUntilEmpty <= 3) {
+                    suggestions.push({
+                        type: 'stock',
+                        icon: '⏰',
+                        title: `${product} reicht noch ${data.daysUntilEmpty} Tage`,
+                        description: `Warscheinlich bald nachkaufen`,
+                        action: () => addFavoriteToList(product, data.defaultQty, data.unit)
+                    });
+                }
+            }
+
+            // Aufgaben-Vorschläge
+            regularTasks.forEach(task => {
+                if (task.frequency.days.includes(dayOfWeek)) {
+                    suggestions.push({
+                        type: 'task',
+                        icon: '📅',
+                        title: task.description,
+                        description: `für ${task.children.join(', ')}`,
+                        action: () => {} // Bereits im Dashboard
+                    });
+                }
+            });
+
+            // Rezept-Vorschläge
+            const recipes = {
+                'Hack,Tomaten': 'Spaghetti Bolognese',
+                'Mehl,Eier,Milch': 'Pfannkuchen',
+                'Fisch,Zitrone': 'Fischfilet',
+                'Bacon,Eier': 'Breakfast'
+            };
+
+            const cartItems = list.map(i => i.name.toLowerCase()).join(',');
+            for (let [ingredients, meal] of Object.entries(recipes)) {
+                const ingredientList = ingredients.split(',');
+                if (ingredientList.some(ing => cartItems.includes(ing.toLowerCase()))) {
+                    suggestions.push({
+                        type: 'recipe',
+                        icon: '🍝',
+                        title: `${meal} kochen?`,
+                        description: `Du hast die Zutaten!`,
+                        action: () => {}
+                    });
+                }
+            }
+
+            return suggestions;
+        }
+
+        let currentSuggestions = [];
+
+        function executeSuggestion(idx) {
+            const suggestion = currentSuggestions[idx];
+            if (suggestion && typeof suggestion.action === 'function') {
+                suggestion.action();
+            }
+        }
+
+        function displaySuggestions() {
+            const suggestions = generateSuggestions();
+            currentSuggestions = suggestions;
+            if (suggestions.length === 0) {
+                document.getElementById('suggestionsSection').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('suggestionsSection').style.display = 'block';
+            let html = suggestions.map((sug, idx) => `
+                <div class="suggestion-card">
+                    <div class="suggestion-content">
+                        <div class="suggestion-title">${sug.icon} ${sug.title}</div>
+                        <div class="suggestion-description">${sug.description}</div>
+                    </div>
+                    <div class="suggestion-actions">
+                        <button class="suggestion-add" onclick="event.stopPropagation(); executeSuggestion(${idx});">➕</button>
+                        <button class="suggestion-dismiss" onclick="event.stopPropagation(); dismissSuggestion(${idx})">✕</button>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('suggestionsList').innerHTML = html;
+        }
+
+        function dismissSuggestion(idx) {
+            displaySuggestions();
+        }
+
+        // CHAOS-MODUS
+        function openChaosModeModal(routine) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">🌪️ CHAOS-MODUS</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">Sicher? Alle Aufgaben abhaken?</p>
+                    <div style="background: var(--border); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+                        <p><strong>⭐ Sterne werden trotzdem vergeben!</strong></p>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary btn-block" onclick="executeChaosMode('${routine}'); this.closest('.modal').remove();">✓ Ja, alle abhaken!</button>
+                        <button class="btn btn-secondary btn-block" onclick="this.closest('.modal').remove();">Abbrechen</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function executeChaosMode(routine) {
+            const today = new Date().toISOString().split('T')[0];
+            const routineStatus = loadData(`routineStatus-${today}`, {});
+            if (!routineStatus[currentChild]) routineStatus[currentChild] = { morning: {}, evening: {} };
+
+            const tasks = routine === 'morning' ? MORNING_TASKS : EVENING_TASKS;
+            let starsAwarded = 0;
+
+            // Nur nicht-abgehakte Tasks zählen!
+            tasks.forEach(task => {
+                const wasAlreadyChecked = routineStatus[currentChild][routine][task];
+                if (!wasAlreadyChecked) {
+                    routineStatus[currentChild][routine][task] = true;
+                    awardStars(currentChild, 1);
+                    starsAwarded += 1;
+                }
+            });
+
+            saveData(`routineStatus-${today}`, routineStatus);
+            
+            // Show Rocket Animation
+            if (starsAwarded > 0) {
+                setTimeout(() => {
+                    launchRocket();
+                }, 300);
+            }
+            
+            if (routine === 'morning') {
+                loadMorningRoutineDetail();
+            } else {
+                loadEveningRoutineDetail();
+            }
+        }
+
+        // WOCHENÜBERSICHT
+        function loadWeeklyOverview() {
+            const week = getWeekKey();
+            const stars = loadData('childStars', {});
+            const weekStars = stars[week] || {};
+            const regularTasks = loadData('regularTasks', []);
+            const individualTasks = loadData('individualTasks', []);
+
+            let html = '';
+            CHILDREN.forEach(child => {
+                const childStars = weekStars[child] || 0;
+                const rewards = loadData('rewards', []).filter(r => r.children.includes(child));
+                const nextReward = rewards.filter(r => !r.achieved).sort((a, b) => a.starsRequired - b.starsRequired)[0];
+
+                // Zähle Aufgaben-Erfüllung
+                let taskCounts = {};
+                regularTasks.forEach(task => {
+                    if (task.children.includes(child)) {
+                        taskCounts[task.description] = (taskCounts[task.description] || 0) + 1;
+                    }
+                });
+
+                individualTasks.forEach(task => {
+                    if (task.childId === child) {
+                        taskCounts[task.name] = (taskCounts[task.name] || 0) + (task.completedThisWeek || 0);
+                    }
+                });
+
+                html += `
+                    <div class="child-overview-card">
+                        <div class="overview-header">
+                            <div class="child-avatar">👧</div>
+                            <div class="overview-info">
+                                <h3>${child}</h3>
+                                <div class="overview-stars">⭐ ${childStars} Sterne diese Woche</div>
+                            </div>
+                        </div>
+
+                        <div class="weekly-tasks">
+                            ${Object.entries(taskCounts).map(([task, count]) => `
+                                <div class="task-item-overview">
+                                    <span>• ${task}</span>
+                                    <span class="task-count">${count}x ✓</span>
+                                </div>
+                            `).join('')}
+                            ${Object.keys(taskCounts).length === 0 ? '<p style="opacity: 0.6;">Keine Aufgaben diese Woche</p>' : ''}
+                        </div>
+
+                        ${nextReward ? `
+                            <div class="next-reward-info">
+                                <strong>🎁 Nächste Belohnung:</strong>
+                                ${nextReward.name} (${nextReward.starsRequired}⭐)<br>
+                                Noch ${Math.max(0, nextReward.starsRequired - childStars)}⭐ bis dahin!
+                            </div>
+                        ` : '<p style="opacity: 0.6;">Alle Belohnungen entsperrt! 🎉</p>'}
+                    </div>
+                `;
+            });
+
+            document.getElementById('weeklyOverview').innerHTML = html;
+        }
+
+        // PARENT DASHBOARD TABS
+        function switchParentTab(tabName, button) {
+            const tabs = document.querySelectorAll('#parentPage .tab-content');
+            const btns = document.querySelectorAll('#parentPage .tab-btn');
+            tabs.forEach(t => t.style.display = 'none');
+            btns.forEach(b => b.classList.remove('active'));
+
+            const targetBtn = button || document.querySelector(`#parentPage .tab-btn[onclick*="${tabName}"]`);
+            if (targetBtn) targetBtn.classList.add('active');
+
+            document.getElementById(tabName + 'Tab').style.display = 'block';
+
+            if (tabName === 'overview') {
+                loadWeeklyOverview();
+            } else if (tabName === 'rewards') {
+                loadRewardsTab();
+            } else if (tabName === 'settings') {
+                loadSettingsTab();
+            } else if (tabName === 'child') {
+                displayChildDashboardSelectors();
+            }
+        }
+
+        function loadRewardsTab() {
+            const rewards = loadData('rewards', []);
+            const individualRewards = rewards.filter(r => r.type === 'individual');
+            const familyRewards = rewards.filter(r => r.type === 'family');
+
+            let html = '';
+            if (individualRewards.length === 0) {
+                html = '<p style="opacity: 0.6;">Keine individuellen Belohnungen definiert.</p>';
+            } else {
+                html = individualRewards.map(r => `
+                    <div class="task-card">
+                        <div>
+                            <h3>${r.icon || '🎁'} ${r.name}</h3>
+                            <div style="font-size: 0.9rem; opacity: 0.7;">👧 ${r.children.join(', ')}</div>
+                            <div style="font-size: 0.9rem; color: var(--primary); font-weight: bold;">⭐ ${r.starsRequired} Sterne</div>
+                        </div>
+                        <button class="btn" style="background: #f44336; color: white;" onclick="deleteReward(${r.id})">Löschen</button>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('individualRewardsList').innerHTML = html;
+
+            html = '';
+            if (familyRewards.length === 0) {
+                html = '<p style="opacity: 0.6;">Keine Familien-Belohnungen definiert.</p>';
+            } else {
+                html = familyRewards.map(r => `
+                    <div class="task-card">
+                        <div>
+                            <h3>${r.icon || '🎁'} ${r.name}</h3>
+                            <div style="font-size: 0.9rem; color: var(--primary); font-weight: bold;">⭐ ${r.starsRequired} Sterne (${Math.floor(r.starsRequired / CHILDREN.length)} pro Kind)</div>
+                        </div>
+                        <button class="btn" style="background: #f44336; color: white;" onclick="deleteReward(${r.id})">Löschen</button>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('familyRewardsList').innerHTML = html;
+        }
+
+        function loadSettingsTab() {
+            let html = CHILDREN.map(child => `
+                <div class="task-card">
+                    <div style="flex: 1;">
+                        <h3>👧 ${child}</h3>
+                        <button class="btn btn-secondary" onclick="editChildSettings('${child}')" style="margin-top: 0.5rem;">⚙️ Einstellungen</button>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('childrenSettingsList').innerHTML = html;
+        }
+
+        function openRewardModal(type) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            let childOptions = '';
+
+            if (type === 'individual') {
+                childOptions = `
+                    <div class="form-group">
+                        <label>Kind:</label>
+                        <select id="rewardChild" required>
+                            <option value="">-- Wähle Kind --</option>
+                            ${CHILDREN.map(c => `<option value="${c}">${c}</option>`).join('')}
+                        </select>
+                    </div>
+                `;
+            }
+
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">${type === 'individual' ? '👧 Individuelle Belohnung' : '👨‍👩‍👧‍👦 Familien-Belohnung'}</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+
+                    ${childOptions}
+
+                    <div class="form-group">
+                        <label>Belohnungsname:</label>
+                        <input type="text" id="rewardName" placeholder="z.B. Filmabend" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Icon (optional):</label>
+                        <input type="text" id="rewardIcon" placeholder="🎬" maxlength="2">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sterne erforderlich:</label>
+                        <input type="number" id="rewardStars" min="1" placeholder="25" required>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary btn-block" onclick="saveReward('${type}')">✓ Speichern</button>
+                        <button class="btn btn-secondary btn-block" onclick="this.closest('.modal').remove()">Abbrechen</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function saveReward(type) {
+            const name = document.getElementById('rewardName').value.trim();
+            const icon = document.getElementById('rewardIcon').value || '🎁';
+            const stars = parseInt(document.getElementById('rewardStars').value);
+
+            if (!name || !stars) {
+                alert('Bitte fülle alle Felder aus!');
+                return;
+            }
+
+            let children = [];
+            if (type === 'individual') {
+                const child = document.getElementById('rewardChild').value;
+                if (!child) {
+                    alert('Bitte wähle ein Kind aus!');
+                    return;
+                }
+                children = [child];
+            } else {
+                children = [...CHILDREN];
+            }
+
+            const rewards = loadData('rewards', []);
+            rewards.push({
+                id: Date.now(),
+                type: type,
+                name: name,
+                icon: icon,
+                children: children,
+                starsRequired: stars,
+                achieved: false
+            });
+            saveData('rewards', rewards);
+
+            document.querySelector('.modal').remove();
+            loadRewardsTab();
+            alert('✓ Belohnung erstellt!');
+        }
+
+        function deleteReward(id) {
+            if (confirm('Belohnung löschen?')) {
+                let rewards = loadData('rewards', []);
+                rewards = rewards.filter(r => r.id !== id);
+                saveData('rewards', rewards);
+                loadRewardsTab();
+            }
+        }
+
+        function openIndividualTaskModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            const WEEKDAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+            const WEEKDAYS_SHORT = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+            
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 550px; max-height: 90vh; overflow-y: auto;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">📝 Individuelle Aufgabe</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Aufgabenname:</label>
+                        <input type="text" id="indTaskName" placeholder="z.B. Geige üben" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kind:</label>
+                        <select id="indTaskChild" required>
+                            <option value="">-- Wähle Kind --</option>
+                            ${CHILDREN.map(c => `<option value="${c}">${c}</option>`).join('')}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: block; margin-bottom: 1rem;">📅 Häufigkeit:</label>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 6px; border: 2px solid transparent; cursor: pointer; transition: all 0.2s;">
+                                <input type="radio" name="indTaskFrequency" value="daily" checked onchange="toggleIndTaskFrequency()" style="cursor: pointer;">
+                                <span><strong>🔄 Täglich</strong> - Jeden Tag</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 6px; border: 2px solid transparent; cursor: pointer; transition: all 0.2s;">
+                                <input type="radio" name="indTaskFrequency" value="custom" onchange="toggleIndTaskFrequency()" style="cursor: pointer;">
+                                <span><strong>📅 Individuelle Tage</strong> - Wähle Tage</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Individuelle Tage Auswahl -->
+                    <div id="indCustomDaysSelection" style="display: none; margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 1rem; font-weight: bold;">Welche Wochentage?</label>
+                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem;">
+                            ${WEEKDAYS_SHORT.map((day, idx) => `
+                                <button type="button" class="ind-weekday-btn" data-day="${idx}" onclick="toggleIndWeekday(${idx}, event)" style="
+                                    padding: 0.75rem;
+                                    border: 2px solid #ddd;
+                                    border-radius: 8px;
+                                    background: white;
+                                    cursor: pointer;
+                                    font-weight: bold;
+                                    transition: all 0.2s;
+                                    font-size: 0.9rem;
+                                ">
+                                    ${day}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div style="margin-top: 1rem; padding: 1rem; background: var(--surface-alt); border-radius: 8px;">
+                            <small style="opacity: 0.8;">📌 Selektierte Tage: <span id="indSelectedDaysDisplay">Keine</span></small>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>⭐ Sterne pro Erledigung:</label>
+                        <input type="number" id="indTaskStars" min="1" value="5" required>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary btn-block" onclick="saveIndividualTask()">✓ Speichern</button>
+                        <button class="btn btn-secondary btn-block" onclick="this.closest('.modal').remove()">Abbrechen</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function toggleIndTaskFrequency() {
+            const freq = document.querySelector('input[name="indTaskFrequency"]:checked').value;
+            const customDays = document.getElementById('indCustomDaysSelection');
+            customDays.style.display = freq === 'custom' ? 'block' : 'none';
+        }
+
+        function toggleIndWeekday(dayIdx, event) {
+            event.preventDefault();
+            const btn = event.target.closest('.ind-weekday-btn');
+            btn.classList.toggle('selected-day');
+            
+            // Update visual style
+            if (btn.classList.contains('selected-day')) {
+                btn.style.backgroundColor = '#2196F3';
+                btn.style.color = 'white';
+                btn.style.borderColor = '#2196F3';
+            } else {
+                btn.style.backgroundColor = 'white';
+                btn.style.color = 'inherit';
+                btn.style.borderColor = '#ddd';
+            }
+            updateIndSelectedDaysDisplay();
+        }
+
+        function updateIndSelectedDaysDisplay() {
+            const WEEKDAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
+            const selected = [];
+            document.querySelectorAll('.ind-weekday-btn.selected-day').forEach(btn => {
+                selected.push(WEEKDAYS[parseInt(btn.dataset.day)]);
+            });
+            const display = document.getElementById('indSelectedDaysDisplay');
+            display.textContent = selected.length > 0 ? selected.join(', ') : 'Keine';
+        }
+
+        function saveIndividualTask() {
+            const name = document.getElementById('indTaskName').value.trim();
+            const childId = document.getElementById('indTaskChild').value;
+            const frequency = document.querySelector('input[name="indTaskFrequency"]:checked')?.value;
+            const stars = parseInt(document.getElementById('indTaskStars').value);
+
+            if (!name || !childId || !frequency || !stars) {
+                alert('Bitte fülle alle Felder aus!');
+                return;
+            }
+
+            let weekDays = [];
+            if (frequency === 'custom') {
+                // Get selected weekdays from button classes
+                document.querySelectorAll('.ind-weekday-btn.selected-day').forEach(btn => {
+                    weekDays.push(parseInt(btn.dataset.day));
+                });
+
+                if (weekDays.length === 0) {
+                    alert('Bitte wähle mindestens einen Wochentag aus!');
+                    return;
+                }
+            }
+
+            const tasks = loadData('individualTasks', []);
+            const newTask = {
+                id: Date.now(),
+                childId: childId,
+                name: name,
+                frequency: frequency,  // 'daily' or 'custom'
+                starsPerCompletion: stars,
+                completedThisWeek: 0,
+                weeklyProgress: {}
+            };
+            
+            if (weekDays.length > 0) {
+                newTask.weekDays = weekDays;
+            }
+            
+            tasks.push(newTask);
+            saveData('individualTasks', tasks);
+
+            document.querySelector('.modal').remove();
+            alert('✓ Individuelle Aufgabe erstellt!');
+        }
+
+        function updateReminderSettings() {
+            const settings = {
+                morningReminderEnable: document.getElementById('morningReminderEnable').checked,
+                morningReminderHour: document.getElementById('morningReminderHour').value,
+                eveningReminderEnable: document.getElementById('eveningReminderEnable').checked,
+                eveningReminderHour: document.getElementById('eveningReminderHour').value,
+                missedTasksReminder: document.getElementById('missedTasksReminder').checked,
+                stockReminder: document.getElementById('stockReminder').checked
+            };
+            saveData('reminderSettings', settings);
+            alert('✓ Benachrichtigungseinstellungen gespeichert!');
+        }
+
+        function editChildSettings(child) {
+            alert(`⚙️ Kind-Einstellungen für ${child} - Coming soon!`);
+        }
+
+        // ========================================
+        // ROCKET & FIREWORKS ANIMATION
+        // ========================================
+        function launchRocket() {
+            const rocket = document.createElement('div');
+            rocket.className = 'rocket';
+            rocket.textContent = '🚀';
+            document.body.appendChild(rocket);
+
+            setTimeout(() => {
+                createFireworks(window.innerWidth / 2, window.innerHeight / 2);
+                rocket.remove();
+            }, 1500);
+
+            setTimeout(() => rocket.remove(), 2100);
+        }
+
+        function createFireworks(x, y) {
+            const particles = ['✨', '⭐', '💫', '🎆', '🎇'];
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework';
+                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.fontSize = (Math.random() * 20 + 15) + 'px';
+
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const velocity = 200 + Math.random() * 150;
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+
+                particle.style.setProperty('--tx', tx + 'px');
+                particle.style.setProperty('--ty', ty + 'px');
+                particle.style.animation = `burst 1s ease-out forwards`;
+
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        // ========================================
+        // INDIVIDUAL TASKS DAILY CHECK
+        // ========================================
+        function checkIndividualTasks() {
+            const today = new Date().toISOString().split('T')[0];
+            const tasks = loadData('individualTasks', []);
+            const taskStatus = loadData('individualTaskStatus', {});
+
+            // Check if we already asked today
+            if (taskStatus.lastCheckDate === today) return;
+
+            CHILDREN.forEach(child => {
+                const childTasks = tasks.filter(t => t.childId === child);
+                const tasksToAsk = [];
+
+                childTasks.forEach(task => {
+                    const shouldAskToday = shouldShowTaskToday(task);
+                    if (shouldAskToday) {
+                        tasksToAsk.push(task);
+                    }
+                });
+
+                if (tasksToAsk.length > 0) {
+                    setTimeout(() => {
+                        showIndividualTaskDialog(child, tasksToAsk);
+                    }, 500);
+                }
+            });
+
+            taskStatus.lastCheckDate = today;
+            saveData('individualTaskStatus', taskStatus);
+        }
+
+        function shouldShowTaskToday(task) {
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const dateStr = today.toISOString().split('T')[0];
+
+            if (!task.frequency) return false;
+
+            if (task.frequency === 'daily') return true;
+            
+            // Both 'weekly' and 'custom' use weekDays array
+            if (task.frequency === 'weekly' || task.frequency === 'custom') {
+                const weekDays = task.weekDays || [];
+                return weekDays.includes(dayOfWeek);
+            }
+            
+            if (task.frequency === 'specific') {
+                return task.specificDate === dateStr;
+            }
+
+            return false;
+        }
+
+        function showIndividualTaskDialog(child, tasks) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">👧 ${child} - Aufgaben kontrollieren</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+
+                    ${tasks.map(task => `
+                        <div style="background: var(--surface); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                            <h3 style="margin: 0 0 0.5rem 0;">📝 ${task.name}</h3>
+                            <p style="opacity: 0.7; margin: 0 0 1rem 0;">Hast Du das heute erledigt?</p>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-primary" onclick="markTaskComplete('${task.id}', '${child}', true)">✅ Ja!</button>
+                                <button class="btn btn-secondary" onclick="markTaskComplete('${task.id}', '${child}', false)">❌ Nein</button>
+                            </div>
+                        </div>
+                    `).join('')}
+
+                    <button class="btn btn-primary btn-block" onclick="this.closest('.modal').remove()" style="margin-top: 1rem;">Fertig</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function markTaskComplete(taskId, child, completed) {
+            const today = new Date().toISOString().split('T')[0];
+            const tasks = loadData('individualTasks', []);
+            const task = tasks.find(t => t.id == taskId);
+
+            if (!task) return;
+
+            // Init weekly tracking
+            if (!task.weeklyProgress) task.weeklyProgress = {};
+            if (!task.weeklyProgress[getWeekKey()]) task.weeklyProgress[getWeekKey()] = 0;
+
+            if (completed) {
+                // ✅ Task completed - award stars
+                task.weeklyProgress[getWeekKey()] += 1;
+                awardStars(child, task.starsPerCompletion || 5);
+                saveData('individualTasks', tasks);
+
+                // Show success
+                showTaskSuccess(task.name);
+            } else {
+                // ❌ Task missed - show sad face and carryover
+                saveData('individualTasks', tasks);
+                showTaskMissed(task, child);
+            }
+        }
+
+        function showTaskSuccess(taskName) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #4CAF50;
+                color: white;
+                padding: 2rem;
+                border-radius: 12px;
+                font-size: 1.5rem;
+                z-index: 10000;
+                text-align: center;
+                animation: slideDown 0.3s ease;
+            `;
+            notification.innerHTML = `✨ Großartig!<br><small style="font-size: 0.8em;">${taskName} gemacht!</small>`;
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        function showTaskMissed(task, child) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #FF9800;
+                color: white;
+                padding: 2rem;
+                border-radius: 12px;
+                font-size: 1.3rem;
+                z-index: 10000;
+                text-align: center;
+                animation: slideDown 0.3s ease;
+            `;
+            notification.innerHTML = `😢 Kein Problem!<br><small style="font-size: 0.8em;">Das schaffst Du nächstes Mal!</small>`;
+            document.body.appendChild(notification);
+
+            // Schedule carry-over message
+            const today = new Date();
+            const nextDay = new Date(today);
+            nextDay.setDate(nextDay.getDate() + 1);
+
+            setTimeout(() => {
+                notification.remove();
+                showCarryoverMessage(task, child, nextDay);
+            }, 3000);
+        }
+
+        function showCarryoverMessage(task, child, nextDate) {
+            const carryoverText = `Gestern hast Du "${task.name}" nicht gemacht - heute schaffst Du es! 💪`;
+
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #FF9800 0%, #FF6F00 100%);
+                color: white;
+                padding: 1.5rem;
+                border-radius: 12px;
+                max-width: 90%;
+                z-index: 10000;
+                text-align: center;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideDown 0.5s ease;
+            `;
+            notification.textContent = carryoverText;
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.remove(), 5000);
+        }
 
         // Initialize
         function initApp() {
+            console.log('initApp called');
             loadAllData();
+            setupHomeNavigation();
             setupMorningRoutine();
             setupEveningRoutine();
             setupShoppingPage();
             setupParentDashboard();
+            updateTodayEvents();
             document.getElementById('statisticMonth').valueAsDate = new Date();
+            
+            // Load reminder settings
+            const reminderSettings = loadData('reminderSettings', {
+                morningReminderEnable: true,
+                morningReminderHour: '06:00', 
+                eveningReminderEnable: true,
+                eveningReminderHour: '20:00',
+                missedTasksReminder: true,
+                stockReminder: true
+            });
+
+            // Load reminders into UI
+            document.getElementById('morningReminderEnable').checked = reminderSettings.morningReminderEnable;
+            document.getElementById('morningReminderHour').value = reminderSettings.morningReminderHour;
+            document.getElementById('eveningReminderEnable').checked = reminderSettings.eveningReminderEnable;
+            document.getElementById('eveningReminderHour').value = reminderSettings.eveningReminderHour;
+            document.getElementById('missedTasksReminder').checked = reminderSettings.missedTasksReminder;
+            document.getElementById('stockReminder').checked = reminderSettings.stockReminder;
         }
 
         // ========================================
@@ -1061,7 +2553,7 @@
             const newMode = currentMode === 'light' ? 'dark' : 'light';
             document.body.className = newMode + '-mode';
             localStorage.setItem('theme', newMode);
-            updateThemeIcon();
+            updateThemeIcon();  
         });
 
         function updateThemeIcon() {
@@ -1072,13 +2564,27 @@
         // ========================================
         // NAVIGATION
         // ========================================
-        const pages = ['homePage', 'shoppingPage', 'morningPage', 'eveningPage', 'parentPage'];
+        function setupHomeNavigation() {
+            console.log('Setting up home navigation');
+            document.querySelectorAll('#homePage .card[data-page]').forEach(btn => {
+                console.log('Adding listener to', btn.dataset.page);
+                btn.addEventListener('click', () => {
+                    const target = btn.dataset.page;
+                    if (!target) return;
+                    console.log('[Home] navigate to', target);
+                    navigate(target);
+                });
+            });
+        }
+
+        const pages = ['homePage', 'shoppingPage', 'morningPage', 'eveningPage', 'dashboardPage', 'calendarPage'];
         const pageTitles = {
             'homePage': 'Familien-Manager',
             'shoppingPage': '🛒 Einkaufen',
             'morningPage': '🌅 Morgenroutine',
             'eveningPage': '🌙 Abendroutine',
-            'parentPage': '👨‍👩‍👧‍👦 Elterndashboard'
+            'dashboardPage': '📊 Dashboard',
+            'calendarPage': '📅 Kalender'
         };
 
         function navigate(pageName) {
@@ -1086,7 +2592,9 @@
                 'shopping': 'shoppingPage',
                 'morning': 'morningPage',
                 'evening': 'eveningPage',
-                'parent': 'parentPage'
+                'parent': 'dashboardPage',
+                'dashboard': 'dashboardPage',
+                'calendar': 'calendarPage'
             };
 
             pages.forEach(page => document.getElementById(page).classList.remove('active'));
@@ -1099,7 +2607,8 @@
             if (pageName === 'morning') setupMorningRoutine();
             if (pageName === 'evening') setupEveningRoutine();
             if (pageName === 'shopping') setupShoppingPage();
-            if (pageName === 'parent') setupParentDashboard();
+            if (pageName === 'dashboard') setupDashboard();
+            if (pageName === 'calendar') setupCalendar();
         }
 
         document.getElementById('backBtn').addEventListener('click', () => {
@@ -1161,18 +2670,30 @@
             document.getElementById('productInput').focus();
         }
 
-        function switchShoppingTab(tabName) {
-            const tabs = document.querySelectorAll('.tab-content');
-            const btns = document.querySelectorAll('.tab-btn');
+        function switchShoppingTab(tabName, button) {
+            const tabs = document.querySelectorAll('#shoppingPage .tab-content');
+            const btns = document.querySelectorAll('#shoppingPage .tab-btn');
             tabs.forEach(t => t.classList.remove('active'));
             btns.forEach(b => b.classList.remove('active'));
-            
+
             document.getElementById(tabName + 'Tab').classList.add('active');
-            event.target.classList.add('active');
+            button.classList.add('active');
 
             if (tabName === 'history') {
                 loadStatistics();
             }
+        }
+
+        function selectStoreCategory() {
+            const category = document.getElementById('storecategory').value;
+            const items = loadData('shoppingList', []);
+            const filtered = category ? items.filter(i => i.category === category) : items;
+            // Zeige nur bestehende Einträge dieser Kategorie als schnellen Zugriff
+            const categoryList = document.getElementById('categorizedList');
+            if (!categoryList) return;
+            const categories = [...new Set(filtered.map(item => item.category))].sort();
+            let html = categories.map(cat => `<div><strong>${cat}</strong></div>`).join('');
+            categoryList.innerHTML = html || '<p style="opacity: 0.6;">Keine Einträge in dieser Kategorie.</p>';
         }
 
         function addProductToList() {
@@ -1266,9 +2787,12 @@
             // Update product history for suggestions
             const history = loadData('productHistory', {});
             if (!history[productName]) {
-                history[productName] = { count: 0, lastPurchase: null, defaultQty: quantity, unit: unit };
+                history[productName] = { count: 0, lastPurchase: null, category: category, defaultQty: quantity, unit: unit };
             }
             history[productName].count += 1;
+            history[productName].category = category;
+            history[productName].defaultQty = quantity;
+            history[productName].unit = unit;
             saveData('productHistory', history);
 
             document.querySelector('.modal').remove();
@@ -1363,28 +2887,17 @@
         }
 
         function loadSuggestions() {
-            const history = loadData('productHistory', {});
-            const list = loadData('shoppingList', []);
-            const suggestions = [];
-
-            // Simple suggestion logic based on inventory
-            for (let [product, data] of Object.entries(history)) {
-                const isInList = list.some(item => item.name === product);
-                if (!isInList && data.count > 2) {
-                    suggestions.push(`${product} (${data.defaultQty}${data.unit}) - du brauchst das regelmäßig!`);
-                }
-            }
-
-            if (suggestions.length > 0) {
-                document.getElementById('suggestionsSection').style.display = 'block';
-                document.getElementById('suggestionsList').innerHTML = suggestions.map(s => `<div class="suggestion-item">💡 ${s}</div>`).join('');
-            } else {
-                document.getElementById('suggestionsSection').style.display = 'none';
-            }
+            displaySuggestions();
         }
 
         function enterShoppingMode() {
-            alert('🛒 Du befindest dich jetzt im Einkaufsmodus! Mach einen Haken bei den gekauften Produkten. Sie verschwinden dann aus der Liste.');
+            if (!isShoppingMode) {
+                isShoppingMode = true;
+                alert('🛒 Du befindest dich jetzt im Einkaufsmodus! Mach einen Haken bei den gekauften Produkten. Sie verschwinden dann aus der Liste.');
+                document.querySelector('#shoppingModeBtn').textContent = '🛒 Einkauf beenden';
+            } else {
+                openEndShoppingModal();
+            }
         }
 
         function openNewListModal() {
@@ -1501,7 +3014,14 @@
             const routineStatus = loadData(`routineStatus-${today}`, {});
             if (!routineStatus[currentChild]) routineStatus[currentChild] = { morning: {}, evening: {}, specialTasks: [] };
             
+            const wasChecked = routineStatus[currentChild].morning[task];
             routineStatus[currentChild].morning[task] = !routineStatus[currentChild].morning[task];
+            
+            // Award star when task is checked
+            if (!wasChecked && routineStatus[currentChild].morning[task]) {
+                awardStars(currentChild, 1); // 1 star per basic task
+            }
+            
             saveData(`routineStatus-${today}`, routineStatus);
             loadMorningRoutineDetail();
         }
@@ -1518,6 +3038,11 @@
             const progressBar = document.getElementById('morningProgress');
             progressBar.style.width = percentage + '%';
             progressBar.textContent = percentage + '%';
+            
+            // Launch rocket if all tasks completed
+            if (percentage === 100) {
+                setTimeout(() => launchRocket(), 500);
+            }
         }
 
         function loadMorningSpecialTasks() {
@@ -1546,6 +3071,13 @@
                     if (taskDate === showDate || (task.showTime === 'vorabend' && taskDate === dateStr)) {
                         tasksToShow.push(task);
                     }
+                }
+            });
+
+            const childPersonalTasks = loadData('childPersonalTasks', []).filter(t => t.child === currentChild && !t.done);
+            childPersonalTasks.forEach(task => {
+                if (task.date === dateStr) {
+                    tasksToShow.push({ description: `📌 ${task.description} (eigene Kind-Aufgabe)` });
                 }
             });
 
@@ -1625,6 +3157,11 @@
             document.getElementById('eveningCheckList').innerHTML = checklistHtml;
             updateEveningProgress();
             loadEveningSpecialTasks();
+            
+            // Check individual tasks in evening
+            setTimeout(() => {
+                checkIndividualTasks();
+            }, 300);
         }
 
         function openTeethModal() {
@@ -1666,7 +3203,14 @@
             if (!routineStatus[currentChild]) routineStatus[currentChild] = { evening: {}, teeth: {} };
             if (!routineStatus[currentChild].teeth) routineStatus[currentChild].teeth = {};
 
+            const wasChecked = routineStatus[currentChild].teeth[task];
             routineStatus[currentChild].teeth[task] = !routineStatus[currentChild].teeth[task];
+            
+            // Award 0.5 stars per teeth subtask (2 stars for all 4)
+            if (!wasChecked && routineStatus[currentChild].teeth[task]) {
+                awardStars(currentChild, 0.5);
+            }
+            
             saveData(`routineStatus-${today}`, routineStatus);
         }
 
@@ -1675,7 +3219,14 @@
             const routineStatus = loadData(`routineStatus-${today}`, {});
             if (!routineStatus[currentChild]) routineStatus[currentChild] = { evening: {}, teeth: {} };
             
+            const wasChecked = routineStatus[currentChild].evening[task];
             routineStatus[currentChild].evening[task] = !routineStatus[currentChild].evening[task];
+            
+            // Award star when task is checked
+            if (!wasChecked && routineStatus[currentChild].evening[task]) {
+                awardStars(currentChild, 1); // 1 star per basic task
+            }
+            
             saveData(`routineStatus-${today}`, routineStatus);
             loadEveningRoutineDetail();
         }
@@ -1692,6 +3243,11 @@
             const progressBar = document.getElementById('eveningProgress');
             progressBar.style.width = percentage + '%';
             progressBar.textContent = percentage + '%';
+            
+            // Launch rocket if all tasks completed
+            if (percentage === 100) {
+                setTimeout(() => launchRocket(), 500);
+            }
         }
 
         function loadEveningSpecialTasks() {
@@ -1733,27 +3289,39 @@
         // ========================================
         function setupParentDashboard() {
             displayParentTasks();
+            displayChildDashboardSelectors();
         }
 
-        function openTaskModal() {
+        function openTaskModal(taskType = 'regular', existingTask = null) {
+            const selectedTaskType = existingTask ? existingTask.type : taskType;
+            const existingDescription = existingTask ? existingTask.description : '';
+            const existingDays = existingTask && existingTask.frequency ? existingTask.frequency.days : [];
+            const existingDate = existingTask ? existingTask.date : '';
+            const existingChildren = existingTask ? existingTask.children : [];
+            const existingRoutine = existingTask ? existingTask.routine : ['morgen'];
+            const existingShowTime = existingTask ? existingTask.showTime : 'same_day';
+            const existingId = existingTask ? existingTask.id : '';
+
             const modal = document.createElement('div');
             modal.className = 'modal active';
             modal.innerHTML = `
                 <div class="modal-content" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
                     <div class="modal-header">
-                        <h2 class="modal-title">➕ Neue Aufgabe/Ereignis</h2>
+                        <h2 class="modal-title">${existingTask ? '✏️ Aufgabe bearbeiten' : '➕ Neue Aufgabe/Ereignis'}</h2>
                         <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
                     </div>
+
+                    <input type="hidden" id="taskId" value="${existingId}" />
 
                     <div class="form-section">
                         <div class="form-section-title">1. Aufgabentyp</div>
                         <div class="radio-group">
                             <label class="radio-item">
-                                <input type="radio" name="taskType" value="regular" checked onchange="toggleTaskTypeFields()">
+                                <input type="radio" name="taskType" value="regular" ${selectedTaskType === 'regular' ? 'checked' : ''} onchange="toggleTaskTypeFields()">
                                 Regelmäßige Aufgabe
                             </label>
                             <label class="radio-item">
-                                <input type="radio" name="taskType" value="special" onchange="toggleTaskTypeFields()">
+                                <input type="radio" name="taskType" value="special" ${selectedTaskType === 'special' ? 'checked' : ''} onchange="toggleTaskTypeFields()">
                                 Einmaliges Ereignis
                             </label>
                         </div>
@@ -1771,13 +3339,13 @@
                             Wöchentlich (Wochentage wählen)
                         </label>
                         <div class="weekday-selector" id="weekdaySelector" style="margin-bottom: 1rem;">
-                            <button class="weekday-btn" data-day="0">Mo</button>
-                            <button class="weekday-btn" data-day="1">Di</button>
-                            <button class="weekday-btn" data-day="2">Mi</button>
-                            <button class="weekday-btn" data-day="3">Do</button>
-                            <button class="weekday-btn" data-day="4">Fr</button>
-                            <button class="weekday-btn" data-day="5">Sa</button>
-                            <button class="weekday-btn" data-day="6">So</button>
+                            <button class="weekday-btn" data-day="1">Mo</button>
+                            <button class="weekday-btn" data-day="2">Di</button>
+                            <button class="weekday-btn" data-day="3">Mi</button>
+                            <button class="weekday-btn" data-day="4">Do</button>
+                            <button class="weekday-btn" data-day="5">Fr</button>
+                            <button class="weekday-btn" data-day="6">Sa</button>
+                            <button class="weekday-btn" data-day="0">So</button>
                         </div>
                     </div>
 
@@ -1845,6 +3413,41 @@
 
             document.body.appendChild(modal);
             setupWeekdayButtons();
+
+            document.getElementById('taskDescription').value = existingDescription;
+            const taskTypeElement = document.querySelector(`input[name="taskType"][value="${selectedTaskType}"]`);
+            if (taskTypeElement) taskTypeElement.checked = true;
+            toggleTaskTypeFields();
+
+            if (existingDate) {
+                document.getElementById('taskDate').value = existingDate;
+            }
+
+            document.querySelectorAll('.weekday-btn').forEach(btn => {
+                const day = parseInt(btn.dataset.day);
+                if (existingDays.includes(day)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (existingChildren.length && existingChildren.length !== CHILDREN.length) {
+                const childrenSpecificElement = document.querySelector('input[name="childrenSelect"][value="specific"]');
+                if (childrenSpecificElement) childrenSpecificElement.checked = true;
+                updateChildrenDisplay();
+                document.querySelectorAll('.child-checkbox').forEach(chk => {
+                    chk.checked = existingChildren.includes(chk.value);
+                });
+            } else {
+                const childrenAllElement = document.querySelector('input[name="childrenSelect"][value="all"]');
+                if (childrenAllElement) childrenAllElement.checked = true;
+                updateChildrenDisplay();
+            }
+
+            const routineValue = existingRoutine[0] === 'morgen' && existingRoutine.includes('abend') ? 'both' : existingRoutine[0];
+            const routineTimeElement = document.querySelector(`input[name="routineTime"][value="${routineValue}"]`);
+            if (routineTimeElement) routineTimeElement.checked = true;
+            const showTimingElement = document.querySelector(`input[name="showTiming"][value="${existingShowTime}"]`);
+            if (showTimingElement) showTimingElement.checked = true;
         }
 
         function toggleTaskTypeFields() {
@@ -1856,6 +3459,12 @@
         function updateChildrenDisplay() {
             const isSpecific = document.querySelector('input[name="childrenSelect"]:checked').value === 'specific';
             document.getElementById('childrenCheckboxes').style.display = isSpecific ? 'grid' : 'none';
+        }
+
+        function updateFrequencyDisplay() {
+            const weekly = document.querySelector('input[name="frequency"]:checked').value === 'weekly';
+            document.getElementById('weekdaySelector').style.display = weekly ? 'flex' : 'none';
+            document.getElementById('dateSection').style.display = weekly ? 'none' : 'block';
         }
 
         function setupWeekdayButtons() {
@@ -1897,6 +3506,10 @@
                 showTime: showTiming
             };
 
+            const taskId = document.getElementById('taskId').value;
+            task.id = taskId ? parseInt(taskId) : Date.now();
+            task.type = taskType;
+
             if (taskType === 'regular') {
                 const days = [];
                 document.querySelectorAll('.weekday-btn.active').forEach(btn => {
@@ -1909,8 +3522,12 @@
                 }
 
                 task.frequency = { days: days };
-                const regularTasks = loadData('regularTasks', []);
-                regularTasks.push(task);
+                let regularTasks = loadData('regularTasks', []);
+                if (taskId) {
+                    regularTasks = regularTasks.map(t => t.id === task.id ? task : t);
+                } else {
+                    regularTasks.push(task);
+                }
                 saveData('regularTasks', regularTasks);
             } else {
                 const date = document.getElementById('taskDate').value;
@@ -1919,8 +3536,12 @@
                     return;
                 }
                 task.date = date;
-                const specialTasks = loadData('specialTasks', []);
-                specialTasks.push(task);
+                let specialTasks = loadData('specialTasks', []);
+                if (taskId) {
+                    specialTasks = specialTasks.map(t => t.id === task.id ? task : t);
+                } else {
+                    specialTasks.push(task);
+                }
                 saveData('specialTasks', specialTasks);
             }
 
@@ -1946,6 +3567,7 @@
                             <div class="task-card-children">👧 ${task.children.join(', ')}</div>
                         </div>
                         <div class="task-card-actions">
+                            <button class="btn btn-secondary" onclick="editTask(${task.id}, 'regular')">Bearbeiten</button>
                             <button class="btn" style="background: #f44336; color: white;" onclick="deleteTask(${task.id}, 'regular')">Löschen</button>
                         </div>
                     </div>
@@ -1965,6 +3587,7 @@
                             <div class="task-card-children">👧 ${task.children.join(', ')}</div>
                         </div>
                         <div class="task-card-actions">
+                            <button class="btn btn-secondary" onclick="editTask(${task.id}, 'special')">Bearbeiten</button>
                             <button class="btn" style="background: #f44336; color: white;" onclick="deleteTask(${task.id}, 'special')">Löschen</button>
                         </div>
                     </div>
@@ -1973,6 +3596,138 @@
 
             document.getElementById('regularTasksList').innerHTML = regularHtml;
             document.getElementById('specialTasksList').innerHTML = specialHtml;
+        }
+
+        function editTask(id, type) {
+            const tasks = loadData(type === 'regular' ? 'regularTasks' : 'specialTasks', []);
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+            openTaskModal(type, task);
+        }
+
+        function openChildTaskModal(existingTask = null) {
+            if (typeof existingTask === 'number') {
+                const tasks = loadData('childPersonalTasks', []);
+                existingTask = tasks.find(t => t.id === existingTask) || null;
+            }
+
+            const child = existingTask ? existingTask.child : CHILDREN[0];
+            const description = existingTask ? existingTask.description : '';
+            const date = existingTask ? existingTask.date : '';
+            const taskId = existingTask ? existingTask.id : '';
+
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">${existingTask ? '✏️' : '➕'} Kind-Aufgabe</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+                    <div class="form-section">
+                        <label>Kind</label>
+                        <select id="childTaskChild">
+                            ${CHILDREN.map(c => `<option value="${c}" ${c === child ? 'selected' : ''}>${c}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="form-section">
+                        <label>Beschreibung</label>
+                        <input type="text" id="childTaskDescription" value="${description}" placeholder="z.B. Tiere versorgen" />
+                    </div>
+                    <div class="form-section">
+                        <label>Datum</label>
+                        <input type="date" id="childTaskDate" value="${date}" />
+                    </div>
+                    <div style="display:flex; gap:0.5rem;">
+                        <button class="btn btn-primary btn-block" onclick="saveChildTask(${taskId ? taskId : 'null'})">Speichern</button>
+                        <button class="btn btn-secondary btn-block" onclick="this.closest('.modal').remove()">Abbrechen</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function saveChildTask(taskId) {
+            const child = document.getElementById('childTaskChild').value;
+            const description = document.getElementById('childTaskDescription').value.trim();
+            const date = document.getElementById('childTaskDate').value;
+            if (!description || !date) {
+                alert('Bitte Beschreibung und Datum eingeben.');
+                return;
+            }
+
+            const tasks = loadData('childPersonalTasks', []);
+            if (taskId) {
+                const idx = tasks.findIndex(t => t.id === taskId);
+                if (idx !== -1) {
+                    tasks[idx].child = child;
+                    tasks[idx].description = description;
+                    tasks[idx].date = date;
+                }
+            } else {
+                tasks.push({ id: Date.now(), child, description, date, done: false });
+            }
+            saveData('childPersonalTasks', tasks);
+            document.querySelector('.modal').remove();
+            setupChildDashboard(child);
+        }
+
+        function deleteChildTask(id) {
+            let tasks = loadData('childPersonalTasks', []);
+            tasks = tasks.filter(t => t.id !== id);
+            saveData('childPersonalTasks', tasks);
+            const child = document.getElementById('childDashboardTitle').dataset.child;
+            setupChildDashboard(child);
+        }
+
+        function markChildTaskDone(id) {
+            let tasks = loadData('childPersonalTasks', []);
+            const idx = tasks.findIndex(t => t.id === id);
+            if (idx !== -1) {
+                tasks[idx].done = true;
+                saveData('childPersonalTasks', tasks);
+                const child = document.getElementById('childDashboardTitle').dataset.child;
+                setupChildDashboard(child);
+            }
+        }
+
+        function setupChildDashboard(selectedChild) {
+            document.getElementById('childDashboardContent').style.display = 'block';
+            document.getElementById('childDashboardTitle').textContent = `${selectedChild} - Persönliche Aufgaben`;
+            document.getElementById('childDashboardTitle').dataset.child = selectedChild;
+
+            const tasks = loadData('childPersonalTasks', []).filter(t => t.child === selectedChild);
+
+            const now = new Date();
+            const countdownHtml = tasks.map(task => {
+                const target = new Date(task.date);
+                const diffDays = Math.ceil((target - now) / (1000*60*60*24));
+                return `<div class="reward-card ${task.done ? 'achieved' : ''}">
+                            <div class="reward-name">${task.description}</div>
+                            <div>${task.date} (${diffDays >= 0 ? 'in ' + diffDays + ' Tagen' : Math.abs(diffDays) + ' Tagen zurück'})</div>
+                            <div style="margin-top: 0.5rem; display:flex; gap:0.5rem;">
+                                <button class="btn btn-secondary" onclick="openChildTaskModal(${task.id})">Bearbeiten</button>
+                                <button class="btn btn-primary" onclick="markChildTaskDone(${task.id})">${task.done ? 'Erledigt' : 'Erledigen'}</button>
+                                <button class="btn btn-danger" onclick="deleteChildTask(${task.id})">Löschen</button>
+                            </div>
+                        </div>`;
+            }).join('');
+            document.getElementById('childCountdownList').innerHTML = countdownHtml || '<p style="opacity:0.6;">Keine Kind-Aufgaben.</p>';
+
+            // evening check question for child tasks due today
+            const todayStr = new Date().toISOString().slice(0,10);
+            const dueToday = tasks.filter(t => t.date === todayStr && !t.done);
+            if (dueToday.length > 0) {
+                const reminders = dueToday.map(t => `Hast du heute deine Aufgabe "${t.description}" erledigt?`).join('<br>');
+                document.getElementById('morningSpecialTasksList').innerHTML = `<div class="missed-task-item">${reminders}</div>`;
+                document.getElementById('morningSpecialTasks').style.display = 'block';
+            }
+        }
+
+        function displayChildDashboardSelectors() {
+            document.getElementById('childDashboardSelection').innerHTML = CHILDREN.map(child => `
+                <button class="child-switcher-btn" onclick="setupChildDashboard('${child}')">${child}</button>
+            `).join('');
         }
 
         function deleteTask(id, type) {
@@ -1988,8 +3743,444 @@
             setupParentDashboard();
         }
 
-        // Initialize app
-        initApp();
+        // Initialize app after DOM loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+        });
+
+        // MODAL FOR END SHOPPING
+        function openEndShoppingModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">🛒 Einkauf beenden</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+                    <div class="form-section">
+                        <p>Möchtest du einen Kassenbon hochladen, um die gekauften Produkte automatisch zu erfassen?</p>
+                        <button class="btn btn-secondary" onclick="openCamera()">📸 Bon fotografieren</button>
+                        <input type="file" id="receiptFile" accept="image/*" capture="environment" style="margin: 1rem 0; display: none;">
+                        <button class="btn btn-primary" onclick="processReceipt()">📸 Bon auslesen & speichern</button>
+                        <button class="btn btn-secondary" onclick="endShoppingWithoutReceipt()">⏭️ Ohne Bon beenden</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function openCamera() {
+            const input = document.getElementById('receiptFile');
+            input.style.display = 'block';
+            input.click(); // Trigger file picker, or for camera, use capture
+            // For camera, change accept to "image/*" and add capture="environment"
+            input.setAttribute('capture', 'environment');
+        }
+
+        function processReceipt() {
+            const file = document.getElementById('receiptFile').files[0];
+            if (!file) {
+                alert('Bitte wähle ein Bild des Kassenbons aus!');
+                return;
+            }
+
+            // Use Tesseract to extract text
+            Tesseract.recognize(file, 'deu', {
+                logger: m => console.log(m)
+            }).then(({ data: { text } }) => {
+                console.log('Extracted text:', text);
+                // Parse the text to extract products and prices
+                // This is a simple example; in reality, you'd need more sophisticated parsing
+                const lines = text.split('\n');
+                const products = [];
+                lines.forEach(line => {
+                    // Simple regex to find product and price
+                    const match = line.match(/^(.+?)\s+(\d+,\d{2})$/);
+                    if (match) {
+                        products.push({ name: match[1].trim(), price: parseFloat(match[2].replace(',', '.')) });
+                    }
+                });
+
+                if (products.length > 0) {
+                    alert(`Gefundene Produkte: ${products.map(p => p.name + ' ' + p.price + '€').join(', ')}`);
+                    // Save to receipts or update stats
+                    saveReceipt(products);
+                } else {
+                    alert('Keine Produkte erkannt. Bitte manuell eingeben.');
+                }
+                endShopping();
+            }).catch(err => {
+                console.error(err);
+                alert('Fehler beim Auslesen des Bons.');
+            });
+        }
+
+        function saveReceipt(products) {
+            const receipts = loadData('receipts', []);
+            const total = products.reduce((sum, p) => sum + p.price, 0);
+            receipts.push({
+                id: Date.now(),
+                date: new Date().toISOString().split('T')[0],
+                store: 'Unbekannt', // Could be detected from text
+                amount: total,
+                products: products
+            });
+            saveData('receipts', receipts);
+        }
+
+        function endShoppingWithoutReceipt() {
+            endShopping();
+        }
+
+        function endShopping() {
+            isShoppingMode = false;
+            document.querySelector('#shoppingModeBtn').textContent = '🛒 Einkaufsmodus starten';
+            document.querySelector('.modal').remove();
+            alert('✅ Einkauf beendet!');
+        }
+
+        // ========================================
+        // DASHBOARD PAGE
+        // ========================================
+        function setupDashboard() {
+            showDashboard('parent'); // Default to parent
+            displayParentTasks();
+        }
+
+        function showDashboard(type) {
+            const content = document.getElementById('dashboardContent');
+            if (type === 'parent') {
+                content.innerHTML = `
+                    <div class="shopping-tabs">
+                        <button class="tab-btn active" onclick="switchParentTab('tasks', this)">📋 Aufgaben</button>
+                        <button class="tab-btn" onclick="switchParentTab('child', this)">👧 Kinder-Dashboard</button>
+                        <button class="tab-btn" onclick="switchParentTab('rewards', this)">🎁 Belohnungen</button>
+                        <button class="tab-btn" onclick="switchParentTab('overview', this)">📊 Wochenübersicht</button>
+                        <button class="tab-btn" onclick="switchParentTab('notifications', this)">🔔 Benachrichtigungen</button>
+                        <button class="tab-btn" onclick="switchParentTab('settings', this)">⚙️ Einstellungen</button>
+                    </div>
+
+                    <!-- AUFGABEN TAB -->
+                    <div id="tasksTab" class="tab-content active">
+                        <button class="btn btn-primary" onclick="openTaskModal()">+ Neue Aufgabe/Ereignis</button>
+
+                        <div style="margin-top: 2rem;">
+                            <h3 style="margin-bottom: 1.5rem;">📋 Regelmäßige Aufgaben</h3>
+                            <div class="task-list" id="regularTasksList">
+                                <p style="opacity: 0.6;">Keine regelmäßigen Aufgaben vorhanden. Klicke oben auf "+ Neue Aufgabe", um eine zu erstellen.</p>
+                            </div>
+
+                            <h3 style="margin: 2rem 0 1.5rem;">📅 Einmalige Ereignisse</h3>
+                            <div class="task-list" id="specialTasksList">
+                                <p style="opacity: 0.6;">Keine einmaligen Ereignisse vorhanden. Klicke oben auf "+ Neue Aufgabe", um eines zu erstellen.</p>
+                            </div>
+
+                            <h3 style="margin: 2rem 0 1.5rem;">📝 Individuelle Aufgaben (pro Kind)</h3>
+                            <div class="individual-tasks-section">
+                                <button class="btn btn-secondary" onclick="openIndividualTaskModal()" style="margin-bottom: 1rem;">+ Neue individuelle Aufgabe</button>
+                                <div id="individualTasksList">
+                                    <p style="opacity: 0.6;">Keine individuellen Aufgaben vorhanden.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BELOHNUNGEN TAB -->
+                    <div id="rewardsTab" class="tab-content" style="display: none;">
+                        <button class="btn btn-primary" onclick="openRewardModal('individual')" style="margin-right: 1rem;">+ Individuelle Belohnung</button>
+                        <button class="btn btn-secondary" onclick="openRewardModal('family')">+ Familien-Belohnung</button>
+
+                        <div style="margin-top: 2rem;">
+                            <h3 style="margin-bottom: 1.5rem;">👧 Individual-Belohnungen</h3>
+                            <div id="individualRewardsList">
+                                <p style="opacity: 0.6;">Keine individuellen Belohnungen definiert.</p>
+                            </div>
+
+                            <h3 style="margin: 2rem 0 1.5rem;">👨‍👩‍👧‍👦 Familien-Belohnungen</h3>
+                            <div id="familyRewardsList">
+                                <p style="opacity: 0.6;">Keine Familien-Belohnungen definiert.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- WOCHENÜBERSICHT TAB -->
+                    <div id="overviewTab" class="tab-content" style="display: none;">
+                        <div class="weekly-overview" id="weeklyOverview">
+                            <p style="opacity: 0.6;">Wochenübersicht wird geladen...</p>
+                        </div>
+                    </div>
+
+                    <!-- BENACHRICHTIGUNGEN TAB -->
+                    <div id="notificationsTab" class="tab-content" style="display: none;">
+                        <div class="reminders-section">
+                            <h3 style="margin-bottom: 1.5rem;">🔔 Erinnerungen konfigurieren</h3>
+
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" id="morningReminderEnable" checked onchange="updateReminderSettings()">
+                                    Morgen-Reminder aktivieren
+                                </label>
+                                <div class="time-picker-group" id="morningReminderTime">
+                                    <label>Uhrzeit:</label>
+                                    <input type="time" id="morningReminderHour" value="06:00" onchange="updateReminderSettings()">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" id="eveningReminderEnable" checked onchange="updateReminderSettings()">
+                                    Abend-Reminder aktivieren
+                                </label>
+                                <div class="time-picker-group" id="eveningReminderTime">
+                                    <label>Uhrzeit:</label>
+                                    <input type="time" id="eveningReminderHour" value="20:00" onchange="updateReminderSettings()">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" id="missedTasksReminder" checked onchange="updateReminderSettings()">
+                                    Erinnerung bei verpassten Aufgaben
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" id="stockReminder" checked onchange="updateReminderSettings()">
+                                    Bestand-Reminder (wenn < 3 Tage)
+                                </label>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="updateReminderSettings()" style="margin-top: 1rem;">✓ Speichern</button>
+                        </div>
+                    </div>
+
+                    <!-- EINSTELLUNGEN TAB -->
+                    <div id="settingsTab" class="tab-content" style="display: none;">
+                        <h3 style="margin-bottom: 1.5rem;">⚙️ Einstellungen</h3>
+                        <p>Einstellungen hier...</p>
+                    </div>
+                `;
+            } else {
+                // Child dashboard
+                const childName = type.charAt(0).toUpperCase() + type.slice(1);
+                const stars = loadData('stars', []) || [];
+                const week = getWeekKey();
+                const childStars = (stars[week] && stars[week][type]) || 0;
+                
+                content.innerHTML = `
+                    <h2>${childName}'s Dashboard</h2>
+                    
+                    <!-- STARS DISPLAY -->
+                    <div class="stars-display">
+                        <span>⭐ Sterne diese Woche:</span>
+                        <span class="stars-number">${childStars}</span>
+                    </div>
+
+                    <!-- ROUTINE SHORTCUTS -->
+                    <div class="home-grid" style="margin-bottom: 2rem;">
+                        <button type="button" class="card card-morning" onclick="selectChildMorning('${type}')">
+                            <div class="card-icon">🌅</div>
+                            <div class="card-title">Morgenroutine</div>
+                            <div class="card-description">Jetzt durchführen</div>
+                        </button>
+
+                        <button type="button" class="card card-evening" onclick="selectChildEvening('${type}')">
+                            <div class="card-icon">🌙</div>
+                            <div class="card-title">Abendroutine</div>
+                            <div class="card-description">Jetzt durchführen</div>
+                        </button>
+                    </div>
+
+                    <!-- ACHIEVEMENTS -->
+                    <h3 style="margin-bottom: 1.5rem;">🎁 Belohnungen</h3>
+                    <div class="rewards-grid" id="childRewardsList">
+                        <p style="opacity: 0.6;">Keine Belohnungen verfügbar.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ========================================
+        // CALENDAR PAGE
+        // ========================================
+        function setupCalendar() {
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            const year = currentCalendarDate.getFullYear();
+            const month = currentCalendarDate.getMonth();
+            document.getElementById('calendarTitle').textContent = new Date(year, month).toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            // Days of week
+            const days = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+            days.forEach(day => {
+                const header = document.createElement('div');
+                header.textContent = day;
+                header.style.fontWeight = 'bold';
+                grid.appendChild(header);
+            });
+
+            const today = new Date();
+            for (let i = 0; i < 42; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day';
+                if (date.getMonth() !== month) dayDiv.classList.add('other-month');
+                if (date.toDateString() === today.toDateString()) dayDiv.classList.add('today');
+
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'calendar-day-number';
+                dayNumber.textContent = date.getDate();
+                dayDiv.appendChild(dayNumber);
+
+                const eventsDiv = document.createElement('div');
+                eventsDiv.className = 'calendar-events';
+                // Add events for this date
+                const events = getEventsForDate(date);
+                events.forEach(event => {
+                    const eventDiv = document.createElement('div');
+                    eventDiv.className = 'calendar-event';
+                    eventDiv.style.backgroundColor = PERSON_COLORS[event.person] || '#ccc';
+                    eventDiv.textContent = event.title;
+                    eventsDiv.appendChild(eventDiv);
+                });
+                dayDiv.appendChild(eventsDiv);
+
+                dayDiv.onclick = () => selectDate(date);
+                grid.appendChild(dayDiv);
+            }
+        }
+
+        function prevMonth() {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+            renderCalendar();
+        }
+
+        function selectDate(date) {
+            // Open event modal for this date
+            openEventModal(date);
+        }
+
+        function openEventModal(selectedDate = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            const dateStr = selectedDate ? selectedDate.toISOString().split('T')[0] : '';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">${selectedDate ? 'Ereignis bearbeiten' : 'Neues Ereignis'}</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
+                    </div>
+                    <div class="form-section">
+                        <input type="text" id="eventTitle" placeholder="Titel" required>
+                        <input type="date" id="eventDate" value="${dateStr}" required>
+                        <select id="eventPerson">
+                            ${PERSONS.map(p => `<option value="${p}">${p}</option>`).join('')}
+                        </select>
+                        <button onclick="addPerson()">+ Person hinzufügen</button>
+                        <select id="eventVisibility">
+                            <option value="all">Für alle sichtbar</option>
+                            <option value="parents">Nur Eltern</option>
+                            <option value="self">Nur ich</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="saveEvent()">Speichern</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function addPerson() {
+            const name = prompt('Neue Person:');
+            if (name) {
+                PERSONS.push(name);
+                PERSON_COLORS[name] = '#ccc'; // Default color
+                // Update select
+                const select = document.getElementById('eventPerson');
+                select.innerHTML += `<option value="${name}">${name}</option>`;
+            }
+        }
+
+        function saveEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const person = document.getElementById('eventPerson').value;
+            const visibility = document.getElementById('eventVisibility').value;
+
+            if (!title || !date) return;
+
+            const events = loadData('calendarEvents', []);
+            events.push({ title, date, person, visibility, id: Date.now() });
+            saveData('calendarEvents', events);
+
+            document.querySelector('.modal').remove();
+            renderCalendar();
+            updateTodayEvents();
+        }
+
+        function getEventsForDate(date) {
+            const events = loadData('calendarEvents', []);
+            const dateStr = date.toISOString().split('T')[0];
+            return events.filter(e => e.date === dateStr);
+        }
+
+        function updateTodayEvents() {
+            const list = document.getElementById('todayEventsList');
+            if (eventsView === 'today') {
+                const today = new Date().toISOString().split('T')[0];
+                const events = getEventsForDate(new Date(today));
+                document.getElementById('eventsTitle').textContent = '📅 Heute';
+                if (events.length === 0) {
+                    list.innerHTML = '<p>Keine Termine heute.</p>';
+                } else {
+                    list.innerHTML = events.map(e => `<div style="color: ${PERSON_COLORS[e.person] || '#000'}">${e.title} (${e.person})</div>`).join('');
+                }
+            } else {
+                // Week view
+                document.getElementById('eventsTitle').textContent = '📅 Diese Woche';
+                const today = new Date();
+                const weekEvents = [];
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() + i);
+                    const events = getEventsForDate(date);
+                    if (events.length > 0) {
+                        weekEvents.push({ date: date.toLocaleDateString('de-DE'), events });
+                    }
+                }
+                if (weekEvents.length === 0) {
+                    list.innerHTML = '<p>Keine Termine diese Woche.</p>';
+                } else {
+                    list.innerHTML = weekEvents.map(d => `
+                        <div><strong>${d.date}</strong></div>
+                        ${d.events.map(e => `<div style="color: ${PERSON_COLORS[e.person] || '#000'}">${e.title} (${e.person})</div>`).join('')}
+                    `).join('<br>');
+                }
+            }
+        }
+
+        function toggleEventsView() {
+            eventsView = eventsView === 'today' ? 'week' : 'today';
+            updateTodayEvents();
+        }
     </script>
 </body>
 </html>
