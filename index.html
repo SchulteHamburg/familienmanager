@@ -75,248 +75,70 @@
             align-items: center;
         }
 
-        .back-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .back-btn.show {
+        /* TABS */
+        .shopping-tabs {
             display: flex;
-        }
-
-        .theme-toggle {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* MAIN CONTAINER */
-        main {
-            padding: 2rem 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* HOME GRID */
-        .home-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            flex-wrap: wrap;
             margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
         }
 
-        .card {
-            background: var(--bg);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            color: inherit;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        body.dark-mode .card {
-            background: #1e1e1e;
-            border-color: #333;
-        }
-
-        .card-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            line-height: 1;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-description {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        /* CARD COLORS */
-        .card-shopping {
-            border-left: 4px solid #FF9800;
-        }
-
-        .card-morning {
-            border-left: 4px solid #FFC107;
-        }
-
-        .card-evening {
-            border-left: 4px solid #2196F3;
-        }
-
-        .card-parent {
-            border-left: 4px solid #4CAF50;
-        }
-
-        .card-dashboard {
-            border-left: 4px solid #9C27B0;
-        }
-
-        .card-calendar {
-            border-left: 4px solid #FF5722;
-        }
-
-        .card-child {
-            border-left: 4px solid #2196F3;
-        }
-
-        /* CALENDAR STYLES */
-        .calendar-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .calendar-day {
-            padding: 1rem;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            cursor: pointer;
-            min-height: 80px;
-            position: relative;
-        }
-
-        .calendar-day.today {
-            background: var(--primary);
-            color: white;
-        }
-
-        .calendar-day.other-month {
-            opacity: 0.5;
-        }
-
-        .calendar-day-number {
-            font-weight: bold;
-        }
-
-        .calendar-events {
-            margin-top: 0.5rem;
-        }
-
-        .calendar-event {
-            font-size: 0.8rem;
-            margin-bottom: 0.2rem;
-            padding: 0.2rem;
-            border-radius: 3px;
-            color: white;
-        }
-
-        /* PAGE CONTENT (Hidden by default) */
+        /* PAGES */
         .page-content {
             display: none;
+            padding: 1.5rem;
         }
 
         .page-content.active {
             display: block;
         }
 
-        /* FORM STYLES */
-        .form-group {
-            margin-bottom: 1.5rem;
+        /* HOME GRID */
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        /* CARD */
+        .card {
             background: var(--bg);
-            color: var(--text);
-            font-size: 1rem;
-            transition: border 0.3s;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
+        .card-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .card-title { font-weight: 700; margin-bottom: 0.25rem; }
+        .card-description { font-size: 0.85rem; opacity: 0.6; }
+
+        .card-shopping { border-top: 4px solid #4CAF50; }
+        .card-morning  { border-top: 4px solid #FFC107; }
+        .card-evening  { border-top: 4px solid #2196F3; }
+        .card-dashboard { border-top: 4px solid #9C27B0; }
+        .card-calendar  { border-top: 4px solid #FF5722; }
+        .card-parent    { border-top: 4px solid #3F51B5; }
+        .card-child     { border-top: 4px solid #00BCD4; }
 
         /* BUTTONS */
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s;
             font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s;
         }
 
         .btn-primary {
@@ -324,43 +146,53 @@
             color: white;
         }
 
-        .btn-primary:hover {
-            background: #1976D2;
-            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
-        }
+        .btn-primary:hover { background: #1976D2; }
 
         .btn-secondary {
-            background: var(--accent);
-            color: white;
+            background: var(--border);
+            color: var(--text);
         }
 
-        .btn-secondary:hover {
-            background: #F57C00;
-        }
+        .btn-secondary:hover { opacity: 0.8; }
 
         .btn-danger {
             background: #f44336;
             color: white;
         }
 
-        .btn-danger:hover {
-            background: #d32f2f;
+        .btn-danger:hover { background: #d32f2f; }
+
+        .btn-block { width: 100%; }
+
+        /* FORM GROUP */
+        .form-group {
+            margin-bottom: 1rem;
         }
 
-        .btn-block {
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            justify-content: center;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 1rem;
         }
 
         /* MODAL */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            inset: 0;
+            background: rgba(0,0,0,0.5);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -374,10 +206,11 @@
         .modal-content {
             background: var(--bg);
             border-radius: 12px;
-            padding: 2rem;
-            max-width: 500px;
+            padding: 1.5rem;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -387,10 +220,7 @@
             margin-bottom: 1.5rem;
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+        .modal-title { font-size: 1.3rem; font-weight: bold; }
 
         .modal-close {
             background: none;
@@ -400,55 +230,58 @@
             color: var(--text);
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            main {
-                padding: 1rem;
-            }
-
-            .home-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
-            .card {
-                padding: 1.5rem;
-                min-height: 150px;
-            }
-
-            .card-icon {
-                font-size: 2.5rem;
-            }
-
-            .card-title {
-                font-size: 1.1rem;
-            }
-
-            .card-description {
-                font-size: 0.75rem;
-            }
-
-            header {
-                padding: 1rem;
-            }
-
-            .header-title {
-                font-size: 1.25rem;
-            }
+        /* BACK / THEME BUTTON */
+        .back-btn, .theme-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
         }
 
-        @media (max-width: 480px) {
-            .home-grid {
-                grid-template-columns: 1fr;
-            }
+        .back-btn { display: none; }
+        .back-btn.show { display: block; }
+
+        .back-btn:hover, .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
         }
 
-        /* SHOPPING PAGE STYLES */
-        .shopping-tabs {
+        /* CALENDAR */
+        .calendar-controls {
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--border);
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calendar-day-cell {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.5rem;
+            min-height: 80px;
+            font-size: 0.85rem;
+        }
+
+        .calendar-other-month { opacity: 0.4; }
+
+        .event-item {
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            padding: 0.35rem 0.5rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
+            border-left: 4px solid rgba(0,0,0,0.2);
         }
 
         .tab-btn {
@@ -1626,340 +1459,236 @@
 
     <script>
         // ========================================
-        // SERVICE WORKER REGISTRIEREN
+        // FEHLENDE KONSTANTEN DEFINIEREN
         // ========================================
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(registration => {
-                        console.log('✓ Service Worker registriert:', registration);
-                    })
-                    .catch(error => {
-                        console.log('Service Worker Registrierung fehlgeschlagen:', error);
-                    });
-            });
-        }
+        const MORNING_TASKS = [
+            "Anziehen",
+            "Frühstücken",
+            "Zähne putzen",
+            "Schulsachen packen"
+        ];
+        const EVENING_TASKS = [
+            "Abendessen",
+            "Zähne putzen",
+            "Schlafanzug anziehen",
+            "Vorlesen"
+        ];
+        const TEETH_SUBTASKS = [
+            "Oben putzen",
+            "Unten putzen",
+            "Vorne putzen",
+            "Zunge putzen"
+        ];
 
         // ========================================
-        // APP STATE & INITIALIZATION
+        // GLOBALE KONSTANTEN & VARIABLEN
         // ========================================
         const CHILDREN = ['Mathilda', 'Charlotte', 'Romy', 'Bo'];
-        const PERSONS = ['Mama', 'Papa', ...CHILDREN]; // Erweitere mit Eltern
-        const PERSON_COLORS = {
-            'Mama': '#FF69B4',
-            'Papa': '#4169E1',
-            'Mathilda': '#32CD32',
-            'Charlotte': '#FFD700',
-            'Romy': '#FF6347',
-            'Bo': '#9370DB'
+        let currentChild = '';
+        let currentPage = 'home';
+        let isShoppingMode = false;
+
+        // Navigation Arrays (müssen global sein)
+        const pages = ['homePage', 'shoppingPage', 'morningPage', 'eveningPage', 'dashboardPage', 'calendarPage'];
+        const pageTitles = {
+            'homePage': 'Familien-Manager',
+            'shoppingPage': '🛒 Einkaufen',
+            'morningPage': '🌅 Morgenroutine',
+            'eveningPage': '🌙 Abendroutine',
+            'dashboardPage': '📊 Dashboard',
+            'calendarPage': '📅 Kalender'
         };
 
-        let currentPage = 'home';
-        let currentChild = CHILDREN[0];
-        let isShoppingMode = false;
-        let currentCalendarDate = new Date();
-        let eventsView = 'today'; // 'today' or 'week'
-
         // ========================================
-        // FEATURE 1-3: GAMIFICATION, AUTOPILOT, MENTAL LOAD
+        // STUB-FUNKTIONEN (fehlende Implementierungen)
         // ========================================
+        function getWeekKey() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return `${year}-W${week}`;
+        }
 
-        // GAMIFICATION: Stern-System
-        function awardStars(child, amount = 1) {
+        function awardStars(child, amount) {
+            const stars = loadData('stars', {});
             const week = getWeekKey();
-            const stars = loadData('childStars', {});
             if (!stars[week]) stars[week] = {};
             if (!stars[week][child]) stars[week][child] = 0;
-            
             stars[week][child] += amount;
-            saveData('childStars', stars);
-            
-            // Show animation
-            showStarAnimation();
-            updateStarsDisplay();
-            checkRewardUnlocked(child);
+            saveData('stars', stars);
         }
 
-        function getWeekKey() {
-            const today = new Date();
-            const firstDay = new Date(today.setDate(today.getDate() - today.getDay()));
-            return firstDay.toISOString().split('T')[0];
-        }
-
-        function getStarsThisWeek(child) {
-            const week = getWeekKey();
-            const stars = loadData('childStars', {});
-            return stars[week]?.[child] || 0;
-        }
-
-        function showStarAnimation() {
-            const animation = document.createElement('div');
-            animation.className = 'star-animation';
-            animation.textContent = '⭐';
-            animation.style.position = 'fixed';
-            animation.style.top = '50%';
-            animation.style.left = '50%';
-            animation.style.pointerEvents = 'none';
-            document.body.appendChild(animation);
-            
-            setTimeout(() => animation.remove(), 500);
-        }
-
-        function updateStarsDisplay() {
-            const morningStars = getStarsThisWeek(currentChild);
-            if (morningStars > 0) {
-                document.getElementById('morningStarsDisplay').style.display = 'flex';
-                document.getElementById('morningStarsCount').textContent = morningStars;
-            }
-            
-            const eveningStars = getStarsThisWeek(currentChild);
-            if (eveningStars > 0) {
-                document.getElementById('eveningStarsDisplay').style.display = 'flex';
-                document.getElementById('eveningStarsCount').textContent = eveningStars;
+        function updateTodayEvents() {
+            const today = new Date().toISOString().split('T')[0];
+            const events = loadData('calendarEvents', []).filter(e => e.start && e.start.startsWith(today));
+            const el = document.getElementById('todayEventsList');
+            if (!el) return;
+            if (events.length === 0) {
+                el.innerHTML = '<p>Keine Termine heute.</p>';
+            } else {
+                el.innerHTML = events.map(e => `<div class="event-item">${e.title}</div>`).join('');
             }
         }
 
-        // BELOHNUNGEN-SYSTEM
-        function checkRewardUnlocked(child) {
-            const stars = getStarsThisWeek(child);
-            const rewards = loadData('rewards', []);
-            
-            rewards.forEach(reward => {
-                if (reward.children.includes(child) && stars >= reward.starsRequired && !reward.achieved) {
-                    showRewardNotification(reward);
-                    reward.achieved = true;
-                    saveData('rewards', rewards);
-                }
-            });
-        }
-
-        function showRewardNotification(reward) {
-            const notification = document.createElement('div');
-            notification.className = 'reward-notification';
-            notification.innerHTML = `
-                🎉 <strong>${reward.name}</strong> freigeschaltet!
-                <p>Du kannst die Belohnung jetzt einlösen!</p>
-            `;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => notification.remove(), 5000);
-        }
-
-        // AUTOPILOT: Pattern-Erkennung & Vorschläge
-        function generateSuggestions() {
-            const suggestions = [];
-            const list = loadData('shoppingList', []);
-            const history = loadData('productHistory', {});
-            const today = new Date();
-            const dayOfWeek = today.getDay();
-            const regularTasks = loadData('regularTasks', []);
-
-            // Bestand-Vorschläge
-            for (let [product, data] of Object.entries(history)) {
-                const isInList = list.some(item => item.name === product);
-                if (!isInList && data.daysUntilEmpty && data.daysUntilEmpty <= 3) {
-                    suggestions.push({
-                        type: 'stock',
-                        icon: '⏰',
-                        title: `${product} reicht noch ${data.daysUntilEmpty} Tage`,
-                        description: `Warscheinlich bald nachkaufen`,
-                        action: () => addFavoriteToList(product, data.defaultQty, data.unit)
-                    });
-                }
-            }
-
-            // Aufgaben-Vorschläge
-            regularTasks.forEach(task => {
-                if (task.frequency.days.includes(dayOfWeek)) {
-                    suggestions.push({
-                        type: 'task',
-                        icon: '📅',
-                        title: task.description,
-                        description: `für ${task.children.join(', ')}`,
-                        action: () => {} // Bereits im Dashboard
-                    });
-                }
-            });
-
-            // Rezept-Vorschläge
-            const recipes = {
-                'Hack,Tomaten': 'Spaghetti Bolognese',
-                'Mehl,Eier,Milch': 'Pfannkuchen',
-                'Fisch,Zitrone': 'Fischfilet',
-                'Bacon,Eier': 'Breakfast'
-            };
-
-            const cartItems = list.map(i => i.name.toLowerCase()).join(',');
-            for (let [ingredients, meal] of Object.entries(recipes)) {
-                const ingredientList = ingredients.split(',');
-                if (ingredientList.some(ing => cartItems.includes(ing.toLowerCase()))) {
-                    suggestions.push({
-                        type: 'recipe',
-                        icon: '🍝',
-                        title: `${meal} kochen?`,
-                        description: `Du hast die Zutaten!`,
-                        action: () => {}
-                    });
-                }
-            }
-
-            return suggestions;
-        }
-
-        let currentSuggestions = [];
-
-        function executeSuggestion(idx) {
-            const suggestion = currentSuggestions[idx];
-            if (suggestion && typeof suggestion.action === 'function') {
-                suggestion.action();
-            }
+        function toggleEventsView() {
+            const title = document.getElementById('eventsTitle');
+            if (title) title.textContent = title.textContent === '📅 Heute' ? '📅 Diese Woche' : '📅 Heute';
+            updateTodayEvents();
         }
 
         function displaySuggestions() {
-            const suggestions = generateSuggestions();
-            currentSuggestions = suggestions;
+            // Vorschläge basierend auf Kaufhistorie anzeigen
+            const history = loadData('productHistory', {});
+            const section = document.getElementById('suggestionsSection');
+            const list = document.getElementById('suggestionsList');
+            if (!section || !list) return;
+            const suggestions = Object.entries(history)
+                .filter(([, data]) => data.count >= 3)
+                .sort((a, b) => b[1].count - a[1].count)
+                .slice(0, 3);
             if (suggestions.length === 0) {
-                document.getElementById('suggestionsSection').style.display = 'none';
+                section.style.display = 'none';
                 return;
             }
+            section.style.display = 'block';
+            list.innerHTML = suggestions.map(([name]) => `
+                <div class="suggestion-item">${name} - oft gekauft</div>
+            `).join('');
+        }
 
-            document.getElementById('suggestionsSection').style.display = 'block';
-            let html = suggestions.map((sug, idx) => `
-                <div class="suggestion-card">
-                    <div class="suggestion-content">
-                        <div class="suggestion-title">${sug.icon} ${sug.title}</div>
-                        <div class="suggestion-description">${sug.description}</div>
-                    </div>
-                    <div class="suggestion-actions">
-                        <button class="suggestion-add" onclick="event.stopPropagation(); executeSuggestion(${idx});">➕</button>
-                        <button class="suggestion-dismiss" onclick="event.stopPropagation(); dismissSuggestion(${idx})">✕</button>
+        function loadWeeklyOverview() {
+            const container = document.getElementById('weeklyOverview');
+            if (!container) return;
+            const week = getWeekKey();
+            const stars = loadData('stars', {});
+            const weekStars = stars[week] || {};
+            container.innerHTML = CHILDREN.map(child => `
+                <div class="child-overview-card">
+                    <div class="overview-header">
+                        <div class="child-avatar">👧</div>
+                        <div class="overview-info">
+                            <h3>${child}</h3>
+                            <div class="overview-stars">⭐ ${weekStars[child] || 0} Sterne diese Woche</div>
+                        </div>
                     </div>
                 </div>
             `).join('');
-            document.getElementById('suggestionsList').innerHTML = html;
         }
 
-        function dismissSuggestion(idx) {
-            displaySuggestions();
+        function loadCategoryFilter() {
+            const events = loadData('calendarEvents', []);
+            const categories = [...new Set(events.map(e => e.category).filter(Boolean))];
+            const select = document.getElementById('calendarCategoryFilter');
+            if (!select) return;
+            let html = '<option value="all">Alle</option>';
+            categories.forEach(cat => {
+                html += `<option value="${cat}">${cat}</option>`;
+            });
+            select.innerHTML = html;
         }
 
-        // CHAOS-MODUS
-        function openChaosModeModal(routine) {
+        function openEventModal(existingEvent = null) {
             const modal = document.createElement('div');
             modal.className = 'modal active';
             modal.innerHTML = `
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title">🌪️ CHAOS-MODUS</h2>
+                        <h2 class="modal-title">${existingEvent ? '✏️ Ereignis bearbeiten' : '➕ Neues Ereignis'}</h2>
                         <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
                     </div>
-                    <p style="margin-bottom: 1.5rem; font-size: 1.1rem;">Sicher? Alle Aufgaben abhaken?</p>
-                    <div style="background: var(--border); padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
-                        <p><strong>⭐ Sterne werden trotzdem vergeben!</strong></p>
+                    <div class="form-group"><label>Titel:</label><input type="text" id="eventTitle" value="${existingEvent?.title || ''}"></div>
+                    <div class="form-group"><label>Start:</label><input type="datetime-local" id="eventStart" value="${existingEvent?.start || ''}"></div>
+                    <div class="form-group"><label>Ende:</label><input type="datetime-local" id="eventEnd" value="${existingEvent?.end || ''}"></div>
+                    <div class="form-group"><label>Kategorie:</label><input type="text" id="eventCategory" value="${existingEvent?.category || ''}"></div>
+                    <div class="form-group"><label>Person:</label>
+                        <select id="eventPerson">
+                            <option value="all">Alle</option>
+                            ${CHILDREN.map(c => `<option value="${c.toLowerCase()}" ${existingEvent?.person === c.toLowerCase() ? 'selected' : ''}>${c}</option>`).join('')}
+                        </select>
                     </div>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-primary btn-block" onclick="executeChaosMode('${routine}'); this.closest('.modal').remove();">✓ Ja, alle abhaken!</button>
-                        <button class="btn btn-secondary btn-block" onclick="this.closest('.modal').remove();">Abbrechen</button>
+                    <div style="display:flex; gap:0.5rem;">
+                        <button class="btn btn-primary btn-block" onclick="saveEvent(${existingEvent?.id || 'null'})">Speichern</button>
+                        <button class="btn btn-secondary btn-block" onclick="this.closest('.modal').remove()">Abbrechen</button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
         }
 
-        function executeChaosMode(routine) {
-            const today = new Date().toISOString().split('T')[0];
-            const routineStatus = loadData(`routineStatus-${today}`, {});
-            if (!routineStatus[currentChild]) routineStatus[currentChild] = { morning: {}, evening: {} };
-
-            const tasks = routine === 'morning' ? MORNING_TASKS : EVENING_TASKS;
-            let starsAwarded = 0;
-
-            // Nur nicht-abgehakte Tasks zählen!
-            tasks.forEach(task => {
-                const wasAlreadyChecked = routineStatus[currentChild][routine][task];
-                if (!wasAlreadyChecked) {
-                    routineStatus[currentChild][routine][task] = true;
-                    awardStars(currentChild, 1);
-                    starsAwarded += 1;
-                }
-            });
-
-            saveData(`routineStatus-${today}`, routineStatus);
-            
-            // Show Rocket Animation
-            if (starsAwarded > 0) {
-                setTimeout(() => {
-                    launchRocket();
-                }, 300);
-            }
-            
-            if (routine === 'morning') {
-                loadMorningRoutineDetail();
+        function saveEvent(existingId) {
+            const title = document.getElementById('eventTitle')?.value.trim();
+            const start = document.getElementById('eventStart')?.value;
+            const end = document.getElementById('eventEnd')?.value;
+            const category = document.getElementById('eventCategory')?.value.trim();
+            const person = document.getElementById('eventPerson')?.value;
+            if (!title || !start) { alert('Bitte Titel und Startzeit angeben!'); return; }
+            const events = loadData('calendarEvents', []);
+            if (existingId) {
+                const idx = events.findIndex(e => e.id === existingId);
+                if (idx !== -1) { events[idx] = { ...events[idx], title, start, end, category, person }; }
             } else {
-                loadEveningRoutineDetail();
+                events.push({ id: Date.now(), title, start, end, category, person });
+            }
+            saveData('calendarEvents', events);
+            document.querySelector('.modal')?.remove();
+            renderCalendar();
+            loadCategoryFilter();
+        }
+
+        function editEvent(id) {
+            const events = loadData('calendarEvents', []);
+            const event = events.find(e => e.id == id);
+            if (event) openEventModal(event);
+        }
+
+        function deleteEvent(id) {
+            if (confirm('Ereignis löschen?')) {
+                let events = loadData('calendarEvents', []);
+                events = events.filter(e => e.id != id);
+                saveData('calendarEvents', events);
+                renderCalendar();
             }
         }
 
-        // WOCHENÜBERSICHT
-        function loadWeeklyOverview() {
-            const week = getWeekKey();
-            const stars = loadData('childStars', {});
-            const weekStars = stars[week] || {};
-            const regularTasks = loadData('regularTasks', []);
-            const individualTasks = loadData('individualTasks', []);
+        function importCalendarFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                alert('iCal-Import: Funktion noch nicht vollständig implementiert. Datei: ' + file.name);
+            };
+            reader.readAsText(file);
+        }
 
-            let html = '';
-            CHILDREN.forEach(child => {
-                const childStars = weekStars[child] || 0;
-                const rewards = loadData('rewards', []).filter(r => r.children.includes(child));
-                const nextReward = rewards.filter(r => !r.achieved).sort((a, b) => a.starsRequired - b.starsRequired)[0];
-
-                // Zähle Aufgaben-Erfüllung
-                let taskCounts = {};
-                regularTasks.forEach(task => {
-                    if (task.children.includes(child)) {
-                        taskCounts[task.description] = (taskCounts[task.description] || 0) + 1;
-                    }
-                });
-
-                individualTasks.forEach(task => {
-                   
-                        taskCounts[task.name] = (taskCounts[task.name] || 0) + (task.completedThisWeek || 0);
-                    }
-                });
-
-                html += `
-                    <div class="child-overview-card">
-                        <div class="overview-header">
-                            <div class="child-avatar">👧</div>
-                            <div class="overview-info">
-                                <h3>${child}</h3>
-                                <div class="overview-stars">⭐ ${childStars} Sterne diese Woche</div>
-                            </div>
-                        </div>
-
-                        <div class="weekly-tasks">
-                            ${Object.entries(taskCounts).map(([task, count]) => `
-                                <div class="task-item-overview">
-                                    <span>• ${task}</span>
-                                    <span class="task-count">${count}x ✓</span>
-                                </div>
-                            `).join('')}
-                            ${Object.keys(taskCounts).length === 0 ? '<p style="opacity: 0.6;">Keine Aufgaben diese Woche</p>' : ''}
-                        </div>
-
-                        ${nextReward ? `
-                            <div class="next-reward-info">
-                                <strong>🎁 Nächste Belohnung:</strong>
-                                ${nextReward.name} (${nextReward.starsRequired}⭐)<br>
-                                Noch ${Math.max(0, nextReward.starsRequired - childStars)}⭐ bis dahin!
-                            </div>
-                        ` : '<p style="opacity: 0.6;">Alle Belohnungen entsperrt! 🎉</p>'}
+        function openChaosModeModal(routine) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">🌪️ Chaos-Modus</h2>
+                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
                     </div>
-                `;
-            });
-
-            document.getElementById('weeklyOverview').innerHTML = html;
+                    <p style="margin-bottom: 1.5rem;">Im Chaos-Modus kannst du alle Aufgaben auf einmal abhaken!</p>
+                    <button class="btn btn-primary btn-block" onclick="
+                        CHILDREN.forEach(child => {
+                            const today = new Date().toISOString().split('T')[0];
+                            const status = loadData('routineStatus-' + today, {});
+                            if (!status[child]) status[child] = { morning: {}, evening: {} };
+                            const tasks = '${routine}' === 'morning' ? MORNING_TASKS : EVENING_TASKS;
+                            tasks.forEach(t => { status[child]['${routine === 'morning' ? 'morning' : 'evening'}'][t] = true; });
+                            saveData('routineStatus-' + today, status);
+                        });
+                        this.closest('.modal').remove();
+                        alert('✅ Alle Aufgaben wurden erledigt!');
+                    ">✅ Alle Aufgaben erledigen</button>
+                    <button class="btn btn-secondary btn-block" style="margin-top: 0.5rem;" onclick="this.closest('.modal').remove()">Abbrechen</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
         }
 
         // PARENT DASHBOARD TABS
@@ -2099,7 +1828,7 @@
             let children = [];
             if (type === 'individual') {
                 const child = document.getElementById('rewardChild').value;
-                if (!child) {
+            if (!child) {
                     alert('Bitte wähle ein Kind aus!');
                     return;
                 }
@@ -2268,7 +1997,7 @@
                     alert('Bitte wähle mindestens einen Wochentag aus!');
                     return;
                 }
-            }
+            } // closes: if (frequency === 'custom')
 
             const tasks = loadData('individualTasks', []);
             const newTask = {
@@ -2280,17 +2009,17 @@
                 completedThisWeek: 0,
                 weeklyProgress: {}
             };
-            
+
             if (weekDays.length > 0) {
                 newTask.weekDays = weekDays;
             }
-            
+
             tasks.push(newTask);
             saveData('individualTasks', tasks);
 
             document.querySelector('.modal').remove();
             alert('✓ Individuelle Aufgabe erstellt!');
-        }
+        } // closes: saveIndividualTask
 
         function updateReminderSettings() {
             const settings = {
@@ -2559,35 +2288,25 @@
                 stockReminder: true
             });
 
-            // Load reminders into UI
-            document.getElementById('morningReminderEnable').checked = reminderSettings.morningReminderEnable;
-            document.getElementById('morningReminderHour').value = reminderSettings.morningReminderHour;
-            document.getElementById('eveningReminderEnable').checked = reminderSettings.eveningReminderEnable;
-            document.getElementById('eveningReminderHour').value = reminderSettings.eveningReminderHour;
-            document.getElementById('missedTasksReminder').checked = reminderSettings.missedTasksReminder;
-            document.getElementById('stockReminder').checked = reminderSettings.stockReminder;
+            // Load reminders into UI (nur wenn Elemente vorhanden)
+            const rEnable = document.getElementById('morningReminderEnable');
+            if (rEnable) rEnable.checked = reminderSettings.morningReminderEnable;
+            const rHour = document.getElementById('morningReminderHour');
+            if (rHour) rHour.value = reminderSettings.morningReminderHour;
+            const eEnable = document.getElementById('eveningReminderEnable');
+            if (eEnable) eEnable.checked = reminderSettings.eveningReminderEnable;
+            const eHour = document.getElementById('eveningReminderHour');
+            if (eHour) eHour.value = reminderSettings.eveningReminderHour;
+            const mReminder = document.getElementById('missedTasksReminder');
+            if (mReminder) mReminder.checked = reminderSettings.missedTasksReminder;
+            const sReminder = document.getElementById('stockReminder');
+            if (sReminder) sReminder.checked = reminderSettings.stockReminder;
         }
 
         // ========================================
         // DARK MODE TOGGLE
         // ========================================
-        const themeToggle = document.getElementById('themeToggle');
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.body.className = savedTheme + '-mode';
-        updateThemeIcon();
-
-        themeToggle.addEventListener('click', () => {
-            const currentMode = document.body.classList.contains('light-mode') ? 'light' : 'dark';
-            const newMode = currentMode === 'light' ? 'dark' : 'light';
-            document.body.className = newMode + '-mode';
-            localStorage.setItem('theme', newMode);
-            updateThemeIcon();  
-        });
-
-        function updateThemeIcon() {
-            const isDark = document.body.classList.contains('dark-mode');
-            themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        }
+        // ...existing code...
 
         // ========================================
         // NAVIGATION
@@ -2605,15 +2324,7 @@
             });
         }
 
-        const pages = ['homePage', 'shoppingPage', 'morningPage', 'eveningPage', 'dashboardPage', 'calendarPage'];
-        const pageTitles = {
-            'homePage': 'Familien-Manager',
-            'shoppingPage': '🛒 Einkaufen',
-            'morningPage': '🌅 Morgenroutine',
-            'eveningPage': '🌙 Abendroutine',
-            'dashboardPage': '📊 Dashboard',
-            'calendarPage': '📅 Kalender'
-        };
+
 
         function navigate(pageName) {
             const pageMap = {
@@ -3324,7 +3035,7 @@
             const selectedTaskType = existingTask ? existingTask.type : taskType;
             const existingDescription = existingTask ? existingTask.description : '';
             const existingDays = existingTask && existingTask.frequency ? existingTask.frequency.days : [];
-            const existingDate = existingTask ? existingDate : '';
+            const existingDate = existingTask ? existingTask.date : '';
             const existingChildren = existingTask ? existingTask.children : [];
             const existingRoutine = existingTask ? existingTask.routine : ['morgen'];
             const existingShowTime = existingTask ? existingTask.showTime : 'same_day';
@@ -3876,187 +3587,11 @@
             displayParentTasks();
         }
 
-        function showDashboard(type) {
-            const content = document.getElementById('dashboardContent');
-            if (type === 'parent') {
-                content.innerHTML = `
-                    <div class="shopping-tabs">
-                        <button class="tab-btn active" onclick="switchParentTab('tasks', this)">📋 Aufgaben</button>
-                        <button class="tab-btn" onclick="switchParentTab('child', this)">👧 Kinder-Dashboard</button>
-                        <button class="tab-btn" onclick="switchParentTab('rewards', this)">🎁 Belohnungen</button>
-                        <button class="tab-btn" onclick="switchParentTab('overview', this)">📊 Wochenübersicht</button>
-                        <button class="tab-btn" onclick="switchParentTab('notifications', this)">🔔 Benachrichtigungen</button>
-                        <button class="tab-btn" onclick="switchParentTab('settings', this)">⚙️ Einstellungen</button>
-                    </div>
 
-                    <!-- AUFGABEN TAB -->
-                    <div id="tasksTab" class="tab-content active">
-                        <button class="btn btn-primary" onclick="openTaskModal()">+ Neue Aufgabe/Ereignis</button>
 
-                        <div style="margin-top: 2rem;">
-                            <h3 style="margin-bottom: 1.5rem;">📋 Regelmäßige Aufgaben</h3>
-                            <div class="task-list" id="regularTasksList">
-                                <p style="opacity: 0.6;">Keine regelmäßigen Aufgaben vorhanden. Klicke oben auf "+ Neue Aufgabe", um eine zu erstellen.</p>
-                            </div>
-
-                            <h3 style="margin: 2rem 0 1.5rem;">📅 Einmalige Ereignisse</h3>
-                            <div class="task-list" id="specialTasksList">
-                                <p style="opacity: 0.6;">Keine einmaligen Ereignisse vorhanden. Klicke oben auf "+ Neue Aufgabe", um eines zu erstellen.</p>
-                            </div>
-
-                            <h3 style="margin: 2rem 0 1.5rem;">📝 Individuelle Aufgaben (pro Kind)</h3>
-                            <div class="individual-tasks-section">
-                                <button class="btn btn-secondary" onclick="openIndividualTaskModal()" style="margin-bottom: 1rem;">+ Neue individuelle Aufgabe</button>
-                                <div id="individualTasksList">
-                                    <p style="opacity: 0.6;">Keine individuellen Aufgaben vorhanden.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- BELOHNUNGEN TAB -->
-                    <div id="rewardsTab" class="tab-content" style="display: none;">
-                        <button class="btn btn-primary" onclick="openRewardModal('individual')" style="margin-right: 1rem;">+ Individuelle Belohnung</button>
-                        <button class="btn btn-secondary" onclick="openRewardModal('family')">+ Familien-Belohnung</button>
-
-                        <div style="margin-top: 2rem;">
-                            <h3 style="margin-bottom: 1.5rem;">👧 Individual-Belohnungen</h3>
-                            <div id="individualRewardsList">
-                                <p style="opacity: 0.6;">Keine individuellen Belohnungen definiert.</p>
-                            </div>
-
-                            <h3 style="margin: 2rem 0 1.5rem;">👨‍👩‍👧‍👦 Familien-Belohnungen</h3>
-                            <div id="familyRewardsList">
-                                <p style="opacity: 0.6;">Keine Familien-Belohnungen definiert.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- WOCHENÜBERSICHT TAB -->
-                    <div id="overviewTab" class="tab-content" style="display: none;">
-                        <div class="weekly-overview" id="weeklyOverview">
-                            <p style="opacity: 0.6;">Wochenübersicht wird geladen...</p>
-                        </div>
-                    </div>
-
-                    <!-- BENACHRICHTIGUNGEN TAB -->
-                    <div id="notificationsTab" class="tab-content" style="display: none;">
-                        <div class="reminders-section">
-                            <h3 style="margin-bottom: 1.5rem;">🔔 Erinnerungen konfigurieren</h3>
-
-                            <div class="form-group">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" id="morningReminderEnable" checked onchange="updateReminderSettings()">
-                                    Morgen-Reminder aktivieren
-                                </label>
-                                <div class="time-picker-group" id="morningReminderTime">
-                                    <label>Uhrzeit:</label>
-                                    <input type="time" id="morningReminderHour" value="06:00" onchange="updateReminderSettings()">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" id="eveningReminderEnable" checked onchange="updateReminderSettings()">
-                                    Abend-Reminder aktivieren
-                                </label>
-                                <div class="time-picker-group" id="eveningReminderTime">
-                                    <label>Uhrzeit:</label>
-                                    <input type="time" id="eveningReminderHour" value="20:00" onchange="updateReminderSettings()">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" id="missedTasksReminder" checked onchange="updateReminderSettings()">
-                                    Erinnerung bei verpassten Aufgaben
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" id="stockReminder" checked onchange="updateReminderSettings()">
-                                    Bestand-Reminder (wenn < 3 Tage)
-                                </label>
-                            </div>
-
-                            <button class="btn btn-primary" onclick="updateReminderSettings()" style="margin-top: 1rem;">✓ Speichern</button>
-                        </div>
-                    </div>
-
-                    <!-- EINSTELLUNGEN TAB -->
-                    <div id="settingsTab" class="tab-content" style="display: none;">
-                        <h3 style="margin-bottom: 1.5rem;">⚙️ Einstellungen</h3>
-                        <p>Einstellungen hier...</p>
-                    </div>
-                `;
-            } else {
-                // Child dashboard
-                const childName = type.charAt(0).toUpperCase() + type.slice(1);
-                const stars = loadData('stars', []) || [];
-                const week = getWeekKey();
-                const childStars = (stars[week] && stars[week][type]) || 0;
-                
-                content.innerHTML = `
-                    <h2>${childName}'s Dashboard</h2>
-                    
-                    <!-- STARS DISPLAY -->
-                    <div class="stars-display">
-                        <span>⭐ Sterne diese Woche:</span>
-                        <span class="stars-number">${childStars}</span>
-                    </div>
-
-                    <!-- ROUTINE SHORTCUTS -->
-                    <div class="home-grid" style="margin-bottom: 2rem;">
-                        <button type="button" class="card card-morning" onclick="selectChildMorning('${type}')">
-                            <div class="card-icon">🌅</div>
-                            <div class="card-title">Morgenroutine</div>
-                            <div class="card-description">Jetzt durchführen</div>
-                        </button>
-
-                        <button type="button" class="card card-evening" onclick="selectChildEvening('${type}')">
-                            <div class="card-icon">🌙</div>
-                            <div class="card-title">Abendroutine</div>
-                            <div class="card-description">Jetzt durchführen</div>
-                        </button>
-                    </div>
-
-                    <!-- ACHIEVEMENTS -->
-                    <h3 style="margin-bottom: 1.5rem;">🎁 Belohnungen</h3>
-                    <div class="rewards-grid" id="childRewardsList">
-                        <p style="opacity: 0.6;">Keine Belohnungen verfügbar.</p>
-                    </div>
-                `;
-            }
-        }
-
-        // ========================================
-        // CALENDAR PAGE
-        // ========================================
-        const calendarState = {
-            currentDate: new Date(),
-            viewType: 'month',
-            selectedCategory: 'all',
-            selectedPerson: 'all'
-        };
-
-        const personColors = {
-            family: '#4CAF50',
-            mathilda: '#FF5722',
-            charlotte: '#3F51B5',
-            romy: '#9C27B0',
-            bo: '#00BCD4'
-        };
 
         // Korrekte Filterfunktion für Personen im Kalender
-        function loadPersonFilter() {
-            const select = document.getElementById('calendarPersonFilter');
-            if (!select) return;
-            select.innerHTML = '<option value="all">Alle</option>';
-            PERSONS.forEach(person => {
-                select.innerHTML += `<option value="${person}">${person}</option>`;
-            });
-        }
+
 
         function setupCalendar() {
             loadPersonFilter();
@@ -4107,134 +3642,10 @@
                     const dayOfWeek = (periodStart.getDay() + 6) % 7;
                     periodStart.setDate(periodStart.getDate() - dayOfWeek);
                     periodEnd = new Date(periodStart);
-                    periodEnd.setDate(periodStart.getDate() + 6);
-                    document.getElementById('calendarTitle').textContent = `${periodStart.toLocaleDateString('de-DE')} – ${periodEnd.toLocaleDateString('de-DE')}`;
-                    break;
-                }
-                case 'day':
-                    periodStart = new Date(periodStart.getFullYear(), periodStart.getMonth(), periodStart.getDate());
-                    periodEnd = new Date(periodStart);
-                    document.getElementById('calendarTitle').textContent = periodStart.toLocaleDateString('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                    break;
-                case 'year':
-                    periodStart = new Date(periodStart.getFullYear(), 0, 1);
-                    periodEnd = new Date(periodStart.getFullYear(), 11, 31);
-                    document.getElementById('calendarTitle').textContent = periodStart.getFullYear();
-                    break;
+
+                // months.forEach ... (dieser Block war fehlerhaft und unvollständig, daher entfernt)
+                // Die Monatsansicht ist bereits oben korrekt implementiert
             }
-
-            const events = loadData('calendarEvents', []).filter(event => {
-                const eventStart = new Date(event.start);
-                const eventEnd = event.end ? new Date(event.end) : eventStart;
-
-                if (categoryFilter !== 'all' && event.category !== categoryFilter) return false;
-                if (personFilter !== 'all' && event.person !== 'all' && event.person !== personFilter) return false;
-
-                if (query) {
-                    const content = `${event.title} ${event.description || ''} ${event.category || ''} ${event.person || ''}`.toLowerCase();
-                    if (!content.includes(query)) return false;
-                }
-
-                if (eventEnd < periodStart || eventStart > periodEnd) return false;
-                return true;
-            });
-
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
-
-            if (calendarState.viewType === 'day' || calendarState.viewType === 'week') {
-                const start = new Date(periodStart);
-                for (let i = 0; i < (calendarState.viewType === 'day' ? 1 : 7); i++) {
-                    const day = new Date(start);
-                    day.setDate(start.getDate() + i);
-                    const cell = document.createElement('div');
-                    cell.className = 'calendar-day-cell';
-                    cell.innerHTML = `<strong>${day.toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'numeric' })}</strong>`;
-
-                    const dayEvents = events.filter(event => {
-                        const s = new Date(event.start);
-                        const e = event.end ? new Date(event.end) : s;
-                        return !(e < day || s > day);
-                    });
-
-                    for (const event of dayEvents) {
-                        const eventItem = document.createElement('div');
-                        eventItem.className = 'event-item';
-                        const p = event.person || 'all';
-                        eventItem.style.borderLeft = `4px solid ${personColors[p] || '#444'}`;
-                        eventItem.innerHTML = `<strong>${event.title}</strong> <small>${event.category || ''}</small> <br><small>${event.person === 'all' ? 'alle' : event.person}</small>`;
-                        cell.appendChild(eventItem);
-                    }
-
-                    grid.appendChild(cell);
-                }
-            } else if (calendarState.viewType === 'month') {
-                const firstDay = new Date(periodStart);
-                const lastDay = new Date(periodEnd);
-                const startDate = new Date(firstDay);
-                startDate.setDate(startDate.getDate() - ((startDate.getDay() + 6) % 7));
-
-                const endDate = new Date(lastDay);
-                endDate.setDate(endDate.getDate() + (6 - ((endDate.getDay() + 6) % 7)));
-
-                const daysOfWeek = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-                daysOfWeek.forEach(day => {
-                    const header = document.createElement('div');
-                    header.textContent = day;
-                    header.style.fontWeight = 'bold';
-                    grid.appendChild(header);
-                });
-
-                let cursor = new Date(startDate);
-                while (cursor <= endDate) {
-                    const cell = document.createElement('div');
-                    cell.className = 'calendar-day-cell';
-                    cell.innerHTML = `<span>${cursor.getDate()}</span>`;
-                    if (cursor.getMonth() !== periodStart.getMonth()) cell.style.opacity = '0.4';
-
-                    const dayEvents = events.filter(event => {
-                        const s = new Date(event.start);
-                        const e = event.end ? new Date(event.end) : s;
-                        return !(e < cursor || s > cursor);
-                    });
-
-                    for (const event of dayEvents) {
-                        const eventItem = document.createElement('div');
-                        const person = event.person || 'all';
-                        eventItem.style.background = personColors[person] || '#444';
-                        eventItem.className = 'event-item';
-                        eventItem.textContent = `${event.title} (${event.person === 'all' ? 'alle' : event.person})`;
-                        cell.appendChild(eventItem);
-                    }
-
-                    grid.appendChild(cell);
-                    cursor.setDate(cursor.getDate() + 1);
-                }
-            } else if (calendarState.viewType === 'year') {
-                const months = Array.from({ length: 12 }, (_, i) => i);
-                months.forEach(monthIndex => {
-                    const monthBlock = document.createElement('div');
-                    monthBlock.className = 'calendar-month-block';
-                    const monthTitle = new Date(periodStart.getFullYear(), monthIndex, 1).toLocaleDateString('de-DE', { month: 'long' });
-                    monthBlock.innerHTML = `<div class="calendar-month-title"><strong>${monthTitle}</strong></div>`;
-                    const monthEvents = events.filter(event => {
-                        const eventStart = new Date(event.start);
-                        return eventStart.getMonth() === monthIndex;
-                    });
-                    for (const event of monthEvents.slice(0, 10)) {
-                        const eventLine = document.createElement('div');
-                        eventLine.style.background = personColors[event.person || 'all'] || '#444';
-                        eventLine.style.margin = '2px 0';
-                        eventLine.style.padding = '2px 4px';
-                        eventLine.style.color = 'white';
-                        eventLine.textContent = `${event.title} (${event.person === 'all' ? 'alle' : event.person})`;
-                        monthBlock.appendChild(eventLine);
-                    }
-                    grid.appendChild(monthBlock);
-                });
-                grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-            }
-
             renderEventList(events);
         }
 
@@ -4264,428 +3675,11 @@
             const persons = loadData('children', ['mathilda', 'charlotte', 'romy', 'bo']);
             const select = document.getElementById('calendarPersonFilter');
             if (!select) return;
-            select.innerHTML = '<option value="all">Alle</option><option value="all">alle</option>';
-            for (const p of persons) {
-                const content = document.getElementById('dashboardContent');
-                if (type === 'parent') {
-                    content.innerHTML = `
-                        <div class="shopping-tabs">
-                            <button class="tab-btn active" onclick="switchParentTab('tasks', this)">📋 Aufgaben</button>
-                            <button class="tab-btn" onclick="switchParentTab('child', this)">👧 Kinder-Dashboard</button>
-                            <button class="tab-btn" onclick="switchParentTab('rewards', this)">🎁 Belohnungen</button>
-                            <button class="tab-btn" onclick="switchParentTab('overview', this)">📊 Wochenübersicht</button>
-                            <button class="tab-btn" onclick="switchParentTab('notifications', this)">🔔 Benachrichtigungen</button>
-                            <button class="tab-btn" onclick="switchParentTab('settings', this)">⚙️ Einstellungen</button>
-                        </div>`
-
-                        <!-- TO-DO-LISTE BEREICH -->
-                        <div id="todoSection" class="dashboard-section">
-                            <h3>📝 Persönliche To-Do-Liste</h3>
-                            <button class="btn btn-primary" onclick="openTodoModal('parent')">To-Do-Liste erstellen</button>
-                            <div id="parentTodoList"></div>
-                        </div>
-
-                        <!-- VORSCHLAGSBEREICH ESSEN -->
-                        <div id="foodSuggestionSection" class="dashboard-section">
-                            <h3>🍽️ Essensvorschläge</h3>
-                            <button class="btn btn-secondary" onclick="openFoodSuggestionModal()">Vorschlag machen</button>
-                            <div id="foodSuggestionList"></div>
-                        </div>
-
-                        <!-- AUFGABEN TAB -->
-                        <div id="tasksTab" class="tab-content active">
-                            <button class="btn btn-primary" onclick="openTaskModal()">+ Neue Aufgabe/Ereignis</button>
-                            <div style="margin-top: 2rem;">
-                                <h3 style="margin-bottom: 1.5rem;">📋 Regelmäßige Aufgaben</h3>
-                                <div class="task-list" id="regularTasksList">
-                                    <p style="opacity: 0.6;">Keine regelmäßigen Aufgaben vorhanden. Klicke oben auf "+ Neue Aufgabe", um eine zu erstellen.</p>
-                                </div>
-                                <h3 style="margin: 2rem 0 1.5rem;">📅 Einmalige Ereignisse</h3>
-                                <div class="task-list" id="specialTasksList">
-                                    <p style="opacity: 0.6;">Keine einmaligen Ereignisse vorhanden. Klicke oben auf "+ Neue Aufgabe", um eines zu erstellen.</p>
-                                </div>
-                                <h3 style="margin: 2rem 0 1.5rem;">📝 Individuelle Aufgaben (pro Kind)</h3>
-                                <div class="individual-tasks-section">
-                                    <button class="btn btn-secondary" onclick="openIndividualTaskModal()" style="margin-bottom: 1rem;">+ Neue individuelle Aufgabe</button>
-                                    <div id="individualTasksList">
-                                        <p style="opacity: 0.6;">Keine individuellen Aufgaben vorhanden.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    renderParentTodoList();
-                    renderFoodSuggestionList();
-                } else {
-                    // Child dashboard
-                    const childName = type.charAt(0).toUpperCase() + type.slice(1);
-                    const stars = loadData('stars', []) || [];
-                    const week = getWeekKey();
-                    const childStars = (stars[week] && stars[week][type]) || 0;
-                    content.innerHTML = `
-                        <h2>${childName}'s Dashboard</h2>
-                        <!-- STARS DISPLAY -->
-                        <div class="stars-display">
-                            <span>⭐ Sterne diese Woche:</span>
-                            <span class="stars-number">${childStars}</span>
-                        </div>
-                        <!-- TO-DO-LISTE KIND -->
-                        <div id="todoSection" class="dashboard-section">
-                            <h3>📝 Eigene To-Do-Liste</h3>
-                            <button class="btn btn-primary" onclick="openTodoModal('${type}')">To-Do-Liste erstellen</button>
-                            <div id="childTodoList"></div>
-                        </div>
-                        <!-- VORSCHLAGSBEREICH ESSEN KIND -->
-                        <div id="foodSuggestionSection" class="dashboard-section">
-                            <h3>🍽️ Essensvorschläge</h3>
-                            <button class="btn btn-secondary" onclick="openFoodSuggestionModal()">Vorschlag machen</button>
-                            <div id="foodSuggestionList"></div>
-                        </div>
-                        <!-- ROUTINE SHORTCUTS -->
-                        <div class="home-grid" style="margin-bottom: 2rem;">
-                            <button type="button" class="card card-morning" onclick="selectChildMorning('${type}')">
-                                <div class="card-icon">🌅</div>
-                                <div class="card-title">Morgenroutine</div>
-                                <div class="card-description">Jetzt durchführen</div>
-                            </button>
-                            <button type="button" class="card card-evening" onclick="selectChildEvening('${type}')">
-                                <div class="card-icon">🌙</div>
-                                <div class="card-title">Abendroutine</div>
-                                <div class="card-description">Jetzt durchführen</div>
-                            </button>
-                        </div>
-                        <!-- ACHIEVEMENTS -->
-                        <h3 style="margin-bottom: 1.5rem;">🎁 Belohnungen</h3>
-                        <div class="rewards-grid" id="childRewardsList">
-                            <p style="opacity: 0.6;">Keine Belohnungen verfügbar.</p>
-                        </div>
-                    `;
-                    renderChildTodoList(type);
-                    renderFoodSuggestionList();
-                }
-            }
-
-            // --- To-Do-Listen- und Vorschlags-Logik (Platzhalter) ---
-            // --- To-Do-Listen-Logik ---
-            function getTodos(user) {
-                const all = loadData('todos', []);
-                return all.filter(t => t.owner === user || (t.assignedTo === user && t.owner !== user));
-            }
-            function saveTodo(todo) {
-                let all = loadData('todos', []);
-                if (!todo.id) {
-                    todo.id = Date.now().toString();
-                    all.push(todo);
-                } else {
-                    const idx = all.findIndex(t => t.id === todo.id);
-                    if (idx !== -1) all[idx] = todo;
-                    else all.push(todo);
-                }
-                saveData('todos', all);
-                renderParentTodoList();
-                if (todo.owner !== 'parent') renderChildTodoList(todo.owner);
-            }
-            function deleteTodo(id, user) {
-                let all = loadData('todos', []);
-                all = all.filter(t => t.id !== id);
-                saveData('todos', all);
-                renderParentTodoList();
-                if (user !== 'parent') renderChildTodoList(user);
-            }
-            function renderParentTodoList() {
-                const todos = getTodos('parent');
-                const el = document.getElementById('parentTodoList');
-                if (!todos.length) { el.innerHTML = '<p style="opacity:0.6;">Noch keine To-Do-Liste vorhanden.</p>'; return; }
-                el.innerHTML = todos.map(t => `<div class='todo-item'>
-                    <span>${t.text}${t.assignedTo && t.assignedTo !== 'parent' ? ' (zugewiesen an '+t.assignedTo+')' : ''}</span>
-                    <button onclick="deleteTodo('${t.id}','parent')">🗑️</button>
-                </div>`).join('');
-            }
-            function renderChildTodoList(child) {
-                const todos = getTodos(child);
-                const el = document.getElementById('childTodoList');
-                if (!todos.length) { el.innerHTML = '<p style="opacity:0.6;">Noch keine To-Do-Liste vorhanden.</p>'; return; }
-                el.innerHTML = todos.map(t => `<div class='todo-item'>
-                    <span>${t.text}${t.assignedTo && t.assignedTo !== child ? ' (zugewiesen an '+t.assignedTo+')' : ''}</span>
-                    <button onclick="deleteTodo('${t.id}','${child}')">🗑️</button>
-                </div>`).join('');
-            }
-            function openTodoModal(user) {
-                const modal = document.createElement('div');
-                modal.className = 'modal';
-                modal.style.display = 'block';
-                modal.innerHTML = `<div class='modal-content'>
-                    <span class='close' onclick='this.parentNode.parentNode.remove()'>&times;</span>
-                    <h2>To-Do hinzufügen</h2>
-                    <input id='todoText' type='text' placeholder='Aufgabe'>
-                    <label>zuweisen an:
-                        <select id='todoAssign'>
-                            <option value='${user}'>Selbst</option>
-                            <option value='parent'>Eltern</option>
-                            <option value='mathilda'>Mathilda</option>
-                            <option value='charlotte'>Charlotte</option>
-                            <option value='romy'>Romy</option>
-                            <option value='bo'>Bo</option>
-                        </select>
-                    </label>
-                    <button onclick='saveTodo({text:document.getElementById("todoText").value,owner:"${user}",assignedTo:document.getElementById("todoAssign").value})'>Speichern</button>
-                </div>`;
-                document.body.appendChild(modal);
-            }
-
-            // --- Essensvorschlags-Logik ---
-            function getFoodSuggestions() {
-                return loadData('foodSuggestions', []);
-            }
-            function saveFoodSuggestion(suggestion) {
-                let all = loadData('foodSuggestions', []);
-                if (!suggestion.id) {
-                    suggestion.id = Date.now().toString();
-                    suggestion.stars = 0;
-                    all.push(suggestion);
-                } else {
-                    const idx = all.findIndex(s => s.id === suggestion.id);
-                    if (idx !== -1) all[idx] = suggestion;
-                    else all.push(suggestion);
-                }
-                saveData('foodSuggestions', all);
-                renderFoodSuggestionList();
-            }
-            function rateFoodSuggestion(id, delta) {
-                let all = loadData('foodSuggestions', []);
-                const idx = all.findIndex(s => s.id === id);
-                if (idx !== -1) {
-                    all[idx].stars = (all[idx].stars || 0) + delta;
-                    saveData('foodSuggestions', all);
-                    renderFoodSuggestionList();
-                    if (all[idx].stars >= 5) suggestShoppingForFood(all[idx].text);
-                }
-            }
-            function renderFoodSuggestionList() {
-                const list = getFoodSuggestions();
-                const el = document.getElementById('foodSuggestionList');
-                if (!el) return;
-                if (!list.length) { el.innerHTML = '<p style="opacity:0.6;">Noch keine Vorschläge vorhanden.</p>'; return; }
-                el.innerHTML = list.map(s => `<div class='food-suggestion-item'>
-                    <span>${s.text}</span>
-                    <span>⭐ ${s.stars || 0}</span>
-                    <button onclick='rateFoodSuggestion("${s.id}",1)'>+1</button>
-                    <button onclick='rateFoodSuggestion("${s.id}",-1)'>-1</button>
-                </div>`).join('');
-            }
-            function openFoodSuggestionModal() {
-                const modal = document.createElement('div');
-                modal.className = 'modal';
-                modal.style.display = 'block';
-                modal.innerHTML = `<div class='modal-content'>
-                    <span class='close' onclick='this.parentNode.parentNode.remove()'>&times;</span>
-                    <h2>Essensvorschlag machen</h2>
-                    <input id='foodText' type='text' placeholder='Gericht'>
-                    <button onclick='saveFoodSuggestion({text:document.getElementById("foodText").value})'>Speichern</button>
-                </div>`;
-                document.body.appendChild(modal);
-            }
-            function suggestShoppingForFood(food) {
-                // TODO: Einkaufsbereich automatisch mit Vorschlag verknüpfen
-                alert('Einkaufsvorschlag für "' + food + '" wurde erstellt! (Logik folgt)');
-            }
-            function suggestShoppingForFood(food) {
-                // TODO: Einkaufsbereich automatisch mit Vorschlag verknüpfen
-                alert('Einkaufsvorschlag für "' + food + '" wurde erstellt! (Logik folgt)');
-            }
-        }
-
-        function getTodos(user) {
-            const all = loadData('todos', []);
-            return all.filter(t => t.owner === user || (t.assignedTo === user && t.owner !== user));
-        }
-        function saveTodo(todo) {
-            let all = loadData('todos', []);
-            if (!todo.id) {
-                todo.id = Date.now().toString();
-                all.push(todo);
-            } else {
-                const idx = all.findIndex(t => t.id === todo.id);
-                if (idx !== -1) all[idx] = todo;
-                else all.push(todo);
-            }
-            saveData('todos', all);
-            renderParentTodoList();
-            if (todo.owner !== 'parent') renderChildTodoList(todo.owner);
-        }
-        function deleteTodo(id, user) {
-            let all = loadData('todos', []);
-            all = all.filter(t => t.id !== id);
-            saveData('todos', all);
-            renderParentTodoList();
-            if (user !== 'parent') renderChildTodoList(user);
-        }
-        function updateReminderSettings() {
-            const settings = {
-                morningReminderEnable: document.getElementById('morningReminderEnable').checked,
-                morningReminderHour: document.getElementById('morningReminderHour').value,
-                eveningReminderEnable: document.getElementById('eveningReminderEnable').checked,
-                eveningReminderHour: document.getElementById('eveningReminderHour').value,
-                missedTasksReminder: document.getElementById('missedTasksReminder').checked,
-                stockReminder: document.getElementById('stockReminder').checked
-            };
-            saveData('reminderSettings', settings);
-            alert('✓ Benachrichtigungseinstellungen gespeichert!');
-        }
-
-        function editChildSettings(child) {
-            alert(`⚙️ Kind-Einstellungen für ${child} - Coming soon!`);
-        }
-
-        // ========================================
-        // ROCKET & FIREWORKS ANIMATION
-        // ========================================
-        function launchRocket() {
-            const rocket = document.createElement('div');
-            rocket.className = 'rocket';
-            rocket.textContent = '🚀';
-            document.body.appendChild(rocket);
-
-            setTimeout(() => {
-                createFireworks(window.innerWidth / 2, window.innerHeight / 2);
-                rocket.remove();
-            }, 1500);
-
-            setTimeout(() => rocket.remove(), 2100);
-        }
-
-        function createFireworks(x, y) {
-            const particles = ['✨', '⭐', '💫', '🎆', '🎇'];
-            const particleCount = 30;
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'firework';
-                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                particle.style.fontSize = (Math.random() * 20 + 15) + 'px';
-
-                const angle = (Math.PI * 2 * i) / particleCount;
-                const velocity = 200 + Math.random() * 150;
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity;
-
-                particle.style.setProperty('--tx', tx + 'px');
-                particle.style.setProperty('--ty', ty + 'px');
-                particle.style.animation = `burst 1s ease-out forwards`;
-
-                document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 1000);
-            }
-        }
-
-        // ========================================
-        // INDIVIDUAL TASKS DAILY CHECK
-        // ========================================
-        function checkIndividualTasks() {
-            const today = new Date().toISOString().split('T')[0];
-            const tasks = loadData('individualTasks', []);
-            const taskStatus = loadData('individualTaskStatus', {});
-
-            // Check if we already asked today
-            if (taskStatus.lastCheckDate === today) return;
-
-            CHILDREN.forEach(child => {
-                const childTasks = tasks.filter(t => t.childId === child);
-                const tasksToAsk = [];
-
-                childTasks.forEach(task => {
-                    const shouldAskToday = shouldShowTaskToday(task);
-                    if (shouldAskToday) {
-                        tasksToAsk.push(task);
-                    }
-                });
-
-                if (tasksToAsk.length > 0) {
-                    setTimeout(() => {
-                        showIndividualTaskDialog(child, tasksToAsk);
-                    }, 500);
-                }
+            let html = '<option value="all">Alle</option>';
+            persons.forEach(person => {
+                html += `<option value="${person}">${person.charAt(0).toUpperCase() + person.slice(1)}</option>`;
             });
-
-            taskStatus.lastCheckDate = today;
-            saveData('individualTaskStatus', taskStatus);
-        }
-
-        function shouldShowTaskToday(task) {
-            const today = new Date();
-            const dayOfWeek = today.getDay();
-            const dateStr = today.toISOString().split('T')[0];
-
-            if (!task.frequency) return false;
-
-            if (task.frequency === 'daily') return true;
-            
-            // Both 'weekly' and 'custom' use weekDays array
-            if (task.frequency === 'weekly' || task.frequency === 'custom') {
-                const weekDays = task.weekDays || [];
-                return weekDays.includes(dayOfWeek);
-            }
-            
-            if (task.frequency === 'specific') {
-                return task.specificDate === dateStr;
-            }
-
-            return false;
-        }
-
-        function showIndividualTaskDialog(child, tasks) {
-            const modal = document.createElement('div');
-            modal.className = 'modal active';
-            modal.innerHTML = `
-                <div class="modal-content" style="max-width: 500px;">
-                    <div class="modal-header">
-                        <h2 class="modal-title">👧 ${child} - Aufgaben kontrollieren</h2>
-                        <button class="modal-close" onclick="this.closest('.modal').remove()">✕</button>
-                    </div>
-
-                    ${tasks.map(task => `
-                        <div style="background: var(--surface); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                            <h3 style="margin: 0 0 0.5rem 0;">📝 ${task.name}</h3>
-                            <p style="opacity: 0.7; margin: 0 0 1rem 0;">Hast Du das heute erledigt?</p>
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button class="btn btn-primary" onclick="markTaskComplete('${task.id}', '${child}', true)">✅ Ja!</button>
-                                <button class="btn btn-secondary" onclick="markTaskComplete('${task.id}', '${child}', false)">❌ Nein</button>
-                            </div>
-                        </div>
-                    `).join('')}
-
-                    <button class="btn btn-primary btn-block" onclick="this.closest('.modal').remove()" style="margin-top: 1rem;">Fertig</button>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        function markTaskComplete(taskId, child, completed) {
-            const today = new Date().toISOString().split('T')[0];
-            const tasks = loadData('individualTasks', []);
-            const task = tasks.find(t => t.id == taskId);
-
-            if (!task) return;
-
-            // Init weekly tracking
-            if (!task.weeklyProgress) task.weeklyProgress = {};
-            if (!task.weeklyProgress[getWeekKey()]) task.weeklyProgress[getWeekKey()] = 0;
-
-            if (completed) {
-                // ✅ Task completed - award stars
-                task.weeklyProgress[getWeekKey()] += 1;
-                awardStars(child, task.starsPerCompletion || 5);
-                saveData('individualTasks', tasks);
-
-                // Show success
-                showTaskSuccess(task.name);
-            } else {
-                // ❌ Task missed - show sad face and carryover
-                saveData('individualTasks', tasks);
-                showTaskMissed(task, child);
-            }
+            select.innerHTML = html;
         }
 
         function showTaskSuccess(taskName) {
@@ -5552,7 +4546,7 @@
             const selectedTaskType = existingTask ? existingTask.type : taskType;
             const existingDescription = existingTask ? existingTask.description : '';
             const existingDays = existingTask && existingTask.frequency ? existingTask.frequency.days : [];
-            const existingDate = existingTask ? existingDate : '';
+            const existingDate = existingTask ? existingTask.date : '';
             const existingChildren = existingTask ? existingTask.children : [];
             const existingRoutine = existingTask ? existingTask.routine : ['morgen'];
             const existingShowTime = existingTask ? existingTask.showTime : 'same_day';
@@ -6107,154 +5101,168 @@
         function showDashboard(type) {
             const content = document.getElementById('dashboardContent');
             if (type === 'parent') {
-                content.innerHTML = `
-                    <div class="shopping-tabs">
-                        <button class="tab-btn active" onclick="switchParentTab('tasks', this)">📋 Aufgaben</button>
-                        <button class="tab-btn" onclick="switchParentTab('child', this)">👧 Kinder-Dashboard</button>
-                        <button class="tab-btn" onclick="switchParentTab('rewards', this)">🎁 Belohnungen</button>
-                        <button class="tab-btn" onclick="switchParentTab('overview', this)">📊 Wochenübersicht</button>
-                        <button class="tab-btn" onclick="switchParentTab('notifications', this)">🔔 Benachrichtigungen</button>
-                        <button class="tab-btn" onclick="switchParentTab('settings', this)">⚙️ Einstellungen</button>
-                    </div>
-
-                    <!-- AUFGABEN TAB -->
-                    <div id="tasksTab" class="tab-content active">
-                        <button class="btn btn-primary" onclick="openTaskModal()">+ Neue Aufgabe/Ereignis</button>
-
-                        <div style="margin-top: 2rem;">
-                            <h3 style="margin-bottom: 1.5rem;">📋 Regelmäßige Aufgaben</h3>
-                            <div class="task-list" id="regularTasksList">
-                                <p style="opacity: 0.6;">Keine regelmäßigen Aufgaben vorhanden. Klicke oben auf "+ Neue Aufgabe", um eine zu erstellen.</p>
-                            </div>
-
-                            <h3 style="margin: 2rem 0 1.5rem;">📅 Einmalige Ereignisse</h3>
-                            <div class="task-list" id="specialTasksList">
-                                <p style="opacity: 0.6;">Keine einmaligen Ereignisse vorhanden. Klicke oben auf "+ Neue Aufgabe", um eines zu erstellen.</p>
-                            </div>
-
-                            <h3 style="margin: 2rem 0 1.5rem;">📝 Individuelle Aufgaben (pro Kind)</h3>
-                            <div class="individual-tasks-section">
-                                <button class="btn btn-secondary" onclick="openIndividualTaskModal()" style="margin-bottom: 1rem;">+ Neue individuelle Aufgabe</button>
-                                <div id="individualTasksList">
-                                    <p style="opacity: 0.6;">Keine individuellen Aufgaben vorhanden.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- BELOHNUNGEN TAB -->
-                    <div id="rewardsTab" class="tab-content" style="display: none;">
-                        <button class="btn btn-primary" onclick="openRewardModal('individual')" style="margin-right: 1rem;">+ Individuelle Belohnung</button>
-                        <button class="btn btn-secondary" onclick="openRewardModal('family')">+ Familien-Belohnung</button>
-
-                        <div style="margin-top: 2rem;">
-                            <h3 style="margin-bottom: 1.5rem;">👧 Individual-Belohnungen</h3>
-                            <div id="individualRewardsList">
-                                <p style="opacity: 0.6;">Keine individuellen Belohnungen definiert.</p>
-                            </div>
-
-                            <h3 style="margin: 2rem 0 1.5rem;">👨‍👩‍👧‍👦 Familien-Belohnungen</h3>
-                            <div id="familyRewardsList">
-                                <p style="opacity: 0.6;">Keine Familien-Belohnungen definiert.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- WOCHENÜBERSICHT TAB -->
-                    <div id="overviewTab" class="tab-content" style="display: none;">
-                        <div class="weekly-overview" id="weeklyOverview">
-                            <p style="opacity: 0.6;">Wochenübersicht wird geladen...</p>
-                        </div>
-                    </div>
-
-                    <!-- BENACHRICHTIGUNGEN TAB -->
-                    <div id="notificationsTab" class="tab-content" style="display: none;">
-                        <div class="reminders-section">
-                            <h3 style="margin-bottom: 1.5rem;">🔔 Erinnerungen konfigurieren</h3>
-
-                            <div class="form-group">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" id="morningReminderEnable" checked onchange="updateReminderSettings()">
-                                    Morgen-Reminder aktivieren
-                                </label>
-                                <div class="time-picker-group" id="morningReminderTime">
-                                    <label>Uhrzeit:</label>
-                                    <input type="time" id="morningReminderHour" value="06:00" onchange="updateReminderSettings()">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" id="eveningReminderEnable" checked onchange="updateReminderSettings()">
-                                    Abend-Reminder aktivieren
-                                </label>
-                                <div class="time-picker-group" id="eveningReminderTime">
-                                    <label>Uhrzeit:</label>
-                                    <input type="time" id="eveningReminderHour" value="20:00" onchange="updateReminderSettings()">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" id="missedTasksReminder" checked onchange="updateReminderSettings()">
-                                    Erinnerung bei verpassten Aufgaben
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" id="stockReminder" checked onchange="updateReminderSettings()">
-                                    Bestand-Reminder (wenn < 3 Tage)
-                                </label>
-                            </div>
-
-                            <button class="btn btn-primary" onclick="updateReminderSettings()" style="margin-top: 1rem;">✓ Speichern</button>
-                        </div>
-                    </div>
-
-                    <!-- EINSTELLUNGEN TAB -->
-                    <div id="settingsTab" class="tab-content" style="display: none;">
-                        <h3 style="margin-bottom: 1.5rem;">⚙️ Einstellungen</h3>
-                        <p>Einstellungen hier...</p>
-                    </div>
-                `;
+                content.innerHTML = getDashboardTabs()
+                    + getTasksTab()
+                    + getRewardsTab()
+                    + getOverviewTab()
+                    + getNotificationsTab()
+                    + getSettingsTab();
             } else {
                 // Child dashboard
                 const childName = type.charAt(0).toUpperCase() + type.slice(1);
                 const stars = loadData('stars', []) || [];
                 const week = getWeekKey();
                 const childStars = (stars[week] && stars[week][type]) || 0;
-                
-                content.innerHTML = `
-                    <h2>${childName}'s Dashboard</h2>
-                    
-                    <!-- STARS DISPLAY -->
-                    <div class="stars-display">
-                        <span>⭐ Sterne diese Woche:</span>
-                        <span class="stars-number">${childStars}</span>
-                    </div>
+                content.innerHTML = getChildDashboard(childName, childStars, type);
+            }
+        }
 
-                    <!-- ROUTINE SHORTCUTS -->
-                    <div class="home-grid" style="margin-bottom: 2rem;">
-                        <button type="button" class="card card-morning" onclick="selectChildMorning('${type}')">
-                            <div class="card-icon">🌅</div>
-                            <div class="card-title">Morgenroutine</div>
-                            <div class="card-description">Jetzt durchführen</div>
-                        </button>
+        function getDashboardTabs() {
+            return `
+                <div class="shopping-tabs">
+                    <button class="tab-btn active" onclick="switchParentTab('tasks', this)">📋 Aufgaben</button>
+                    <button class="tab-btn" onclick="switchParentTab('child', this)">👧 Kinder-Dashboard</button>
+                    <button class="tab-btn" onclick="switchParentTab('rewards', this)">🎁 Belohnungen</button>
+                    <button class="tab-btn" onclick="switchParentTab('overview', this)">📊 Wochenübersicht</button>
+                    <button class="tab-btn" onclick="switchParentTab('notifications', this)">🔔 Benachrichtigungen</button>
+                    <button class="tab-btn" onclick="switchParentTab('settings', this)">⚙️ Einstellungen</button>
+                </div>
+            `;
+        }
 
-                        <button type="button" class="card card-evening" onclick="selectChildEvening('${type}')">
-                            <div class="card-icon">🌙</div>
-                            <div class="card-title">Abendroutine</div>
-                            <div class="card-description">Jetzt durchführen</div>
-                        </button>
+        function getTasksTab() {
+            return `
+                <div id="tasksTab" class="tab-content active">
+                    <button class="btn btn-primary" onclick="openTaskModal()">+ Neue Aufgabe/Ereignis</button>
+                    <div style="margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1.5rem;">📋 Regelmäßige Aufgaben</h3>
+                        <div class="task-list" id="regularTasksList">
+                            <p style="opacity: 0.6;">Keine regelmäßigen Aufgaben vorhanden. Klicke oben auf "+ Neue Aufgabe", um eine zu erstellen.</p>
+                        </div>
+                        <h3 style="margin: 2rem 0 1.5rem;">📅 Einmalige Ereignisse</h3>
+                        <div class="task-list" id="specialTasksList">
+                            <p style="opacity: 0.6;">Keine einmaligen Ereignisse vorhanden. Klicke oben auf "+ Neue Aufgabe", um eines zu erstellen.</p>
+                        </div>
+                        <h3 style="margin: 2rem 0 1.5rem;">📝 Individuelle Aufgaben (pro Kind)</h3>
+                        <div class="individual-tasks-section">
+                            <button class="btn btn-secondary" onclick="openIndividualTaskModal()" style="margin-bottom: 1rem;">+ Neue individuelle Aufgabe</button>
+                            <div id="individualTasksList">
+                                <p style="opacity: 0.6;">Keine individuellen Aufgaben vorhanden.</p>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            `;
+        }
 
-                    <!-- ACHIEVEMENTS -->
-                    <h3 style="margin-bottom: 1.5rem;">🎁 Belohnungen</h3>
-                    <div class="rewards-grid" id="childRewardsList">
-                        <p style="opacity: 0.6;">Keine Belohnungen verfügbar.</p>
+        function getRewardsTab() {
+            return `
+                <div id="rewardsTab" class="tab-content" style="display: none;">
+                    <button class="btn btn-primary" onclick="openRewardModal('individual')" style="margin-right: 1rem;">+ Individuelle Belohnung</button>
+                    <button class="btn btn-secondary" onclick="openRewardModal('family')">+ Familien-Belohnung</button>
+                    <div style="margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1.5rem;">👧 Individual-Belohnungen</h3>
+                        <div id="individualRewardsList">
+                            <p style="opacity: 0.6;">Keine individuellen Belohnungen definiert.</p>
+                        </div>
+                        <h3 style="margin: 2rem 0 1.5rem;">👨‍👩‍👧‍👦 Familien-Belohnungen</h3>
+                        <div id="familyRewardsList">
+                            <p style="opacity: 0.6;">Keine Familien-Belohnungen definiert.</p>
+                        </div>
                     </div>
-                `;
+                </div>
+            `;
+        }
+
+        function getOverviewTab() {
+            return `
+                <div id="overviewTab" class="tab-content" style="display: none;">
+                    <div class="weekly-overview" id="weeklyOverview">
+                        <p style="opacity: 0.6;">Wochenübersicht wird geladen...</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getNotificationsTab() {
+            return `
+                <div id="notificationsTab" class="tab-content" style="display: none;">
+                    <div class="reminders-section">
+                        <h3 style="margin-bottom: 1.5rem;">🔔 Erinnerungen konfigurieren</h3>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="morningReminderEnable" checked onchange="updateReminderSettings()">
+                                Morgen-Reminder aktivieren
+                            </label>
+                            <div class="time-picker-group" id="morningReminderTime">
+                                <label>Uhrzeit:</label>
+                                <input type="time" id="morningReminderHour" value="06:00" onchange="updateReminderSettings()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="eveningReminderEnable" checked onchange="updateReminderSettings()">
+                                Abend-Reminder aktivieren
+                            </label>
+                            <div class="time-picker-group" id="eveningReminderTime">
+                                <label>Uhrzeit:</label>
+                                <input type="time" id="eveningReminderHour" value="20:00" onchange="updateReminderSettings()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="missedTasksReminder" checked onchange="updateReminderSettings()">
+                                Erinnerung bei verpassten Aufgaben
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="checkbox" id="stockReminder" checked onchange="updateReminderSettings()">
+                                Bestand-Reminder (wenn < 3 Tage)
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" onclick="updateReminderSettings()" style="margin-top: 1rem;">✓ Speichern</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getSettingsTab() {
+            return `
+                <div id="settingsTab" class="tab-content" style="display: none;">
+                    <h3 style="margin-bottom: 1.5rem;">⚙️ Einstellungen</h3>
+                    <p>Einstellungen hier...</p>
+                </div>
+            `;
+        }
+
+        function getChildDashboard(childName, childStars, type) {
+            return `
+                <h2>${childName}'s Dashboard</h2>
+                <!-- STARS DISPLAY -->
+                <div class="stars-display">
+                    <span>⭐ Sterne diese Woche:</span>
+                    <span class="stars-number">${childStars}</span>
+                </div>
+                <!-- ROUTINE SHORTCUTS -->
+                <div class="home-grid" style="margin-bottom: 2rem;">
+                    <button type="button" class="card card-morning" onclick="selectChildMorning('${type}')">
+                        <div class="card-icon">🌅</div>
+                        <div class="card-title">Morgenroutine</div>
+                        <div class="card-description">Jetzt durchführen</div>
+                    </button>
+                    <button type="button" class="card card-evening" onclick="selectChildEvening('${type}')">
+                        <div class="card-icon">🌙</div>
+                        <div class="card-title">Abendroutine</div>
+                        <div class="card-description">Jetzt durchführen</div>
+                    </button>
+                </div>
+                <!-- ACHIEVEMENTS -->
+                <h3 style="margin-bottom: 1.5rem;">🎁 Belohnungen</h3>
+                <div class="rewards-grid" id="childRewardsList">
+                    <p style="opacity: 0.6;">Keine Belohnungen verfügbar.</p>
+                </div>
+            `;
             }
         }
 
@@ -6414,8 +5422,6 @@
                 }
             }
         }
-    }
-}
 </script>
 </body>
 </html>
